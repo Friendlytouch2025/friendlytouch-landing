@@ -3,182 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FriendlyTouch - Connettiti al Caso</title>
+  <title>FriendlyTouch - Connessioni al Caso</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
       font-family: 'Roboto', sans-serif;
+      margin: 0;
       background-color: #f0f2f5;
       color: #333;
     }
     header {
       background-color: #1877f2;
       color: white;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-    h1 {
-      margin: 0.5rem 0;
-      font-size: 2rem;
-    }
-    nav {
-      text-align: right;
-      padding: 0.5rem 2rem;
-    }
-    nav select {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    main {
       padding: 2rem;
       text-align: center;
     }
-    .cta-button {
-      background-color: #1877f2;
-      color: white;
-      padding: 1rem 2rem;
-      border: none;
-      font-size: 1.2rem;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 1.5rem;
-    }
-    .section {
-      max-width: 800px;
-      margin: 2rem auto;
-    }
-    .reviews {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .review {
-      background: white;
-      padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      width: 240px;
-    }
-    .review img {
-      width: 100%;
-      border-radius: 12px;
-    }
-    footer {
-      background-color: #e4e6eb;
-      padding: 1rem 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1 id="title">FriendlyTouch</h1>
-    <p id="subtitle">Connettiti a uno sconosciuto e trova nuovi amici</p>
-  </header>
-
-  <nav>
-    <select onchange="switchLanguage(this.value)">
-      <option value="it">Italiano</option>
-      <option value="en">English</option>
-      <option value="es">Español</option>
-      <option value="jp">日本語</option>
-    </select>
-  </nav>
-
-  <main>
-    <div class="section">
-      <p id="intro">Iscriviti gratuitamente e inizia a incontrare nuove persone casualmente ogni giorno!</p>
-      <button class="cta-button" onclick="window.location.href='https://friendlytouch2025.github.io/registrati'">Registrati Gratis</button>
-    </div>
-
-    <div class="section">
-      <h2 id="reviews-title">Recensioni degli utenti</h2>
-      <div class="reviews">
-        <div class="review">
-          <img src="https://source.unsplash.com/random/240x160?person-1" alt="user1" />
-          <p>“Ho conosciuto persone stupende grazie a questa app!”<br><strong>- Luca23</strong></p>
-        </div>
-        <div class="review">
-          <img src="https://source.unsplash.com/random/240x160?person-2" alt="user2" />
-          <p>“Un'idea geniale. Semplice e potente.”<br><strong>- Anna11</strong></p>
-        </div>
-        <div class="review">
-          <img src="https://source.unsplash.com/random/240x160?person-3" alt="user3" />
-          <p>“5 stelle meritate! Facile da usare.”<br><strong>- Ryan34</strong></p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
-    <p><a href="#">Privacy Policy</a> | <a href="#">Termini e Condizioni</a></p>
-  </footer>
-
-  <script>
-    const translations = {
-      it: {
-        title: "FriendlyTouch",
-        subtitle: "Connettiti a uno sconosciuto e trova nuovi amici",
-        intro: "Iscriviti gratuitamente e inizia a incontrare nuove persone casualmente ogni giorno!",
-        reviewsTitle: "Recensioni degli utenti"
-      },
-      en: {
-        title: "FriendlyTouch",
-        subtitle: "Connect with a stranger and make new friends",
-        intro: "Sign up for free and start meeting random people every day!",
-        reviewsTitle: "User Reviews"
-      },
-      es: {
-        title: "FriendlyTouch",
-        subtitle: "Conéctate con alguien al azar y haz nuevos amigos",
-        intro: "Regístrate gratis y empieza a conocer gente nueva cada día.",
-        reviewsTitle: "Reseñas de usuarios"
-      },
-      jp: {
-        title: "フレンドリータッチ",
-        subtitle: "ランダムな相手とつながって新しい友達を見つけよう",
-        intro: "無料で登録して、毎日新しい人と出会いましょう！",
-        reviewsTitle: "ユーザーレビュー"
-      }
-    };
-
-    function switchLanguage(lang) {
-      document.getElementById("title").innerText = translations[lang].title;
-      document.getElementById("subtitle").innerText = translations[lang].subtitle;
-      document.getElementById("intro").innerText = translations[lang].intro;
-      document.getElementById("reviews-title").innerText = translations[lang].reviewsTitle;
-    }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registrazione - FriendlyTouch</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f0f2f5;
-      font-family: 'Roboto', sans-serif;
-      color: #333;
+    header h1 {
       margin: 0;
+      font-size: 2.5rem;
+    }
+    section.hero {
+      text-align: center;
       padding: 2rem;
+    }
+    section.hero img {
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
       background: white;
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    h1 {
+    h2 {
       text-align: center;
       color: #1877f2;
     }
@@ -205,24 +67,51 @@
       border-radius: 8px;
       cursor: pointer;
     }
+    .reviews {
+      background-color: #fff;
+      padding: 2rem;
+      margin-top: 2rem;
+      border-radius: 12px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .review {
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+    }
+    .stars {
+      color: gold;
+    }
     footer {
       margin-top: 2rem;
       text-align: center;
       font-size: 0.9rem;
+      padding: 1rem;
+      background-color: #f8f9fa;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>FriendlyTouch</h1>
+    <p>Connettiti con nuove persone al caso. Gratis.</p>
+  </header>
+
+  <section class="hero">
+    <img src="https://images.unsplash.com/photo-1533142266415-ac591a4c3e8e" alt="Incontro tra amici" />
+  </section>
+
   <div class="container">
-    <h1>Registrati a FriendlyTouch</h1>
-    <form>
+    <h2>Registrati ora</h2>
+    <form onsubmit="alert('Registrazione inviata! (simulata)'); return false;">
       <label for="name">Nome</label>
       <input type="text" id="name" name="name" required />
 
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required />
 
-      <label for="language">Lingua preferita</label>
+      <label for="language">Lingua</label>
       <select id="language" name="language">
         <option value="it">Italiano</option>
         <option value="en">English</option>
@@ -232,10 +121,26 @@
 
       <button type="submit">Registrati Gratis</button>
     </form>
-
-    <footer>
-      <p>&copy; 2025 FriendlyTouch</p>
-    </footer>
   </div>
+
+  <section class="reviews">
+    <h2>Cosa dicono gli utenti</h2>
+    <div class="review">
+      <p><strong>Anna23</strong> <span class="stars">★★★★★</span></p>
+      <p>Bellissima app, ho conosciuto persone davvero interessanti!</p>
+    </div>
+    <div class="review">
+      <p><strong>LucaSmile</strong> <span class="stars">★★★★★</span></p>
+      <p>Davvero originale, ogni giorno una nuova sorpresa.</p>
+    </div>
+    <div class="review">
+      <p><strong>Yumi_Chan</strong> <span class="stars">★★★★★</span></p>
+      <p>Finalmente un'app per fare amicizia in modo diverso!</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+  </footer>
 </body>
 </html>
