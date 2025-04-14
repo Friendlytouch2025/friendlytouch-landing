@@ -3,179 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FriendlyTouch</title>
-  <link rel="icon" type="image/png" href="https://i.imgur.com/BJ0O1mD.png"/>
+  <title>FriendlyTouch - Connettiti al Caso</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f8;
       margin: 0;
-      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
     }
-
     header {
       background-color: #1877f2;
       color: white;
-      padding: 20px;
+      padding: 1rem 2rem;
       text-align: center;
     }
-
+    h1 {
+      margin: 0.5rem 0;
+      font-size: 2rem;
+    }
     nav {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
+      text-align: right;
+      padding: 0.5rem 2rem;
     }
-
-    nav img {
-      width: 32px;
-      height: 24px;
-      cursor: pointer;
+    nav select {
+      padding: 0.5rem;
+      font-size: 1rem;
     }
-
-    .hero {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .hero img {
-      max-width: 90%;
-      height: auto;
-      border-radius: 15px;
-    }
-
-    .hero h1 {
-      font-size: 2.5em;
-      margin: 20px 0 10px;
-    }
-
-    .hero p {
-      font-size: 1.2em;
-    }
-
-    .register-form {
-      background: white;
-      max-width: 400px;
-      margin: 40px auto;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .register-form h2 {
+    main {
+      padding: 2rem;
       text-align: center;
     }
-
-    .register-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    .register-form button {
-      width: 100%;
-      padding: 10px;
+    .cta-button {
       background-color: #1877f2;
       color: white;
+      padding: 1rem 2rem;
       border: none;
+      font-size: 1.2rem;
       border-radius: 8px;
-      font-size: 1em;
       cursor: pointer;
+      margin-top: 1.5rem;
     }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #666;
+    .section {
+      max-width: 800px;
+      margin: 2rem auto;
     }
-
-    .testimonials {
-      text-align: center;
-      margin: 40px 20px;
+    .reviews {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-
-    .testimonial {
-      margin: 10px auto;
-      max-width: 600px;
-      background: #fff;
-      padding: 15px;
+    .review {
+      background: white;
+      padding: 1rem;
       border-radius: 12px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 240px;
+    }
+    .review img {
+      width: 100%;
+      border-radius: 12px;
+    }
+    footer {
+      background-color: #e4e6eb;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>FriendlyTouch</h1>
-    <p>Incontra nuovi amici in tutto il mondo</p>
+    <h1 id="title">FriendlyTouch</h1>
+    <p id="subtitle">Connettiti a uno sconosciuto e trova nuovi amici</p>
   </header>
 
   <nav>
-    <img src="https://flagcdn.com/w40/it.png" alt="IT" onclick="setLang('it')">
-    <img src="https://flagcdn.com/w40/gb.png" alt="EN" onclick="setLang('en')">
-    <img src="https://flagcdn.com/w40/es.png" alt="ES" onclick="setLang('es')">
-    <img src="https://flagcdn.com/w40/jp.png" alt="JP" onclick="setLang('jp')">
+    <select onchange="switchLanguage(this.value)">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="jp">日本語</option>
+    </select>
   </nav>
 
-  <div class="hero">
-    <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659" alt="Friends">
-    <h1 id="headline">Connetti. Scopri. Vivi.</h1>
-    <p id="subtext">Una piattaforma semplice per trovare amici reali in tutto il mondo.</p>
-  </div>
+  <main>
+    <div class="section">
+      <p id="intro">Iscriviti gratuitamente e inizia a incontrare nuove persone casualmente ogni giorno!</p>
+      <button class="cta-button" onclick="window.location.href='https://friendlytouch2025.github.io/registrati'">Registrati Gratis</button>
+    </div>
 
-  <div class="register-form">
-    <h2 id="register">Registrati gratuitamente</h2>
-    <input type="text" placeholder="Nome utente" />
-    <input type="email" placeholder="Email" />
-    <input type="password" placeholder="Password" />
-    <button onclick="alert('Registrazione completata!')">Registrati</button>
-  </div>
-
-  <div class="testimonials">
-    <h2>Recensioni</h2>
-    <div class="testimonial">"App fantastica, ho conosciuto persone incredibili!" - Luca</div>
-    <div class="testimonial">"Design semplice e idea originale. 5 stelle!" - Ryan</div>
-    <div class="testimonial">"Mi sento connessa al mondo grazie a FriendlyTouch!" - Anna</div>
-  </div>
+    <div class="section">
+      <h2 id="reviews-title">Recensioni degli utenti</h2>
+      <div class="reviews">
+        <div class="review">
+          <img src="https://source.unsplash.com/random/240x160?person-1" alt="user1" />
+          <p>“Ho conosciuto persone stupende grazie a questa app!”<br><strong>- Luca23</strong></p>
+        </div>
+        <div class="review">
+          <img src="https://source.unsplash.com/random/240x160?person-2" alt="user2" />
+          <p>“Un'idea geniale. Semplice e potente.”<br><strong>- Anna11</strong></p>
+        </div>
+        <div class="review">
+          <img src="https://source.unsplash.com/random/240x160?person-3" alt="user3" />
+          <p>“5 stelle meritate! Facile da usare.”<br><strong>- Ryan34</strong></p>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <footer>
     <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
-    <p><a href="#">Termini e Condizioni</a> | <a href="#">Privacy</a></p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Termini e Condizioni</a></p>
   </footer>
 
   <script>
-    function setLang(lang) {
-      const texts = {
-        it: {
-          headline: "Connetti. Scopri. Vivi.",
-          subtext: "Una piattaforma semplice per trovare amici reali in tutto il mondo.",
-          register: "Registrati gratuitamente"
-        },
-        en: {
-          headline: "Connect. Discover. Live.",
-          subtext: "A simple platform to meet real friends worldwide.",
-          register: "Sign Up for Free"
-        },
-        es: {
-          headline: "Conecta. Descubre. Vive.",
-          subtext: "Una plataforma sencilla para encontrar amigos reales.",
-          register: "Regístrate gratis"
-        },
-        jp: {
-          headline: "つながる・発見・楽しむ",
-          subtext: "世界中の友達とつながるシンプルなアプリ",
-          register: "無料登録"
-        }
-      };
-      document.getElementById('headline').textContent = texts[lang].headline;
-      document.getElementById('subtext').textContent = texts[lang].subtext;
-      document.getElementById('register').textContent = texts[lang].register;
+    const translations = {
+      it: {
+        title: "FriendlyTouch",
+        subtitle: "Connettiti a uno sconosciuto e trova nuovi amici",
+        intro: "Iscriviti gratuitamente e inizia a incontrare nuove persone casualmente ogni giorno!",
+        reviewsTitle: "Recensioni degli utenti"
+      },
+      en: {
+        title: "FriendlyTouch",
+        subtitle: "Connect with a stranger and make new friends",
+        intro: "Sign up for free and start meeting random people every day!",
+        reviewsTitle: "User Reviews"
+      },
+      es: {
+        title: "FriendlyTouch",
+        subtitle: "Conéctate con alguien al azar y haz nuevos amigos",
+        intro: "Regístrate gratis y empieza a conocer gente nueva cada día.",
+        reviewsTitle: "Reseñas de usuarios"
+      },
+      jp: {
+        title: "フレンドリータッチ",
+        subtitle: "ランダムな相手とつながって新しい友達を見つけよう",
+        intro: "無料で登録して、毎日新しい人と出会いましょう！",
+        reviewsTitle: "ユーザーレビュー"
+      }
+    };
+
+    function switchLanguage(lang) {
+      document.getElementById("title").innerText = translations[lang].title;
+      document.getElementById("subtitle").innerText = translations[lang].subtitle;
+      document.getElementById("intro").innerText = translations[lang].intro;
+      document.getElementById("reviews-title").innerText = translations[lang].reviewsTitle;
     }
   </script>
-
 </body>
 </html>
