@@ -13,7 +13,7 @@
       color: #333;
     }
     header {
-      background-color: #1877F2; /* blu tipo Facebook */
+      background-color: #1877F2;
       color: white;
       padding: 2rem;
       text-align: center;
@@ -47,6 +47,15 @@
       color: white;
       text-decoration: underline;
     }
+    pre.code {
+      background-color: #222;
+      color: #eee;
+      padding: 1rem;
+      overflow-x: auto;
+      text-align: left;
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -61,7 +70,68 @@
   <div class="container">
     <p id="desc">Clicca sotto per iniziare gratuitamente!</p>
     <button onclick="alert('Prossimamente disponibile!')">Iscriviti Gratis</button>
+
+    <h2 style="margin-top: 3rem;">Come eseguire l'app (Replit o GitHub Codespaces)</h2>
+    <p>Copia il codice Python qui sotto in un file <code>main.py</code> e crea il file <code>requirements.txt</code> con <code>flask</code></p>
+
+    <pre class="code"><code>from flask import Flask, request, jsonify, render_template_string
+from datetime import datetime
+import random
+
+app = Flask(__name__)
+
+users = {}
+
+HTML = """<!DOCTYPE html>
+&lt;html lang='it'&gt;
+&lt;head&gt;&lt;meta charset='UTF-8'/&gt;&lt;title&gt;FriendlyTouch&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;Benvenuto su FriendlyTouch&lt;/h1&gt;&lt;p&gt;API attive!&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;"""
+
+@app.route('/')
+def home():
+    return render_template_string(HTML)
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    username = data.get('username')
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    if not all([username, latitude, longitude]):
+        return jsonify({'status': 'error', 'message': 'Dati mancanti'}), 400
+
+    try:
+        latitude = float(latitude)
+        longitude = float(longitude)
+    except:
+        return jsonify({'status': 'error', 'message': 'Coordinate non valide'}), 400
+
+    users[username] = {'latitude': latitude, 'longitude': longitude, 'joined': timestamp}
+    return jsonify({'status': 'success', 'message': f'{username} registrato!'})
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    return jsonify({'status': 'success', 'users': users})
+
+@app.route('/random_user', methods=['GET'])
+def random_user():
+    if not users:
+        return jsonify({'status': 'error', 'message': 'Nessun utente'}), 404
+    user = random.choice(list(users.items()))
+    return jsonify({'status': 'success', 'username': user[0], 'data': user[1]})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)</code></pre>
+
+    <p><strong>requirements.txt</strong>:</p>
+    <pre class="code"><code>flask</code></pre>
+
+    <p><a href="https://replit.com/" target="_blank">Apri Replit</a> o usa <a href="https://github.com/features/codespaces" target="_blank">GitHub Codespaces</a> per avviare l'app.</p>
   </div>
+
   <footer>
     <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
     <a href="#">Termini e condizioni</a> | <a href="#">Privacy Policy</a>
