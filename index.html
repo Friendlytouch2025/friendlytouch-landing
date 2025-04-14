@@ -1,117 +1,109 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FriendlyTouch - Connettiti Ora</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FriendlyTouch</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/BJ0O1mD.png"/>
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f3f4f6;
-      color: #111;
+      padding: 0;
     }
 
     header {
-      background-color: #4267B2;
-      padding: 2rem;
-      text-align: center;
+      background-color: #1877f2;
       color: white;
+      padding: 20px;
+      text-align: center;
     }
 
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
     }
 
-    header p {
-      font-size: 1.3rem;
+    nav img {
+      width: 32px;
+      height: 24px;
+      cursor: pointer;
     }
 
     .hero {
       text-align: center;
-      margin: 2rem auto;
+      padding: 40px 20px;
     }
 
     .hero img {
-      width: 90%;
-      max-width: 700px;
+      max-width: 90%;
+      height: auto;
       border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
-    .container {
+    .hero h1 {
+      font-size: 2.5em;
+      margin: 20px 0 10px;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+    }
+
+    .register-form {
       background: white;
-      max-width: 600px;
-      margin: 3rem auto;
-      padding: 2rem;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    h2 {
-      font-size: 2rem;
-      color: #4267B2;
+    .register-form h2 {
       text-align: center;
-      margin-bottom: 1.5rem;
     }
 
-    label {
-      font-size: 1.1rem;
-      display: block;
-      margin-top: 1rem;
-    }
-
-    input, select {
+    .register-form input {
       width: 100%;
-      padding: 0.9rem;
-      font-size: 1rem;
-      margin-top: 0.4rem;
+      padding: 10px;
+      margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
 
-    button {
-      margin-top: 2rem;
-      padding: 1rem;
-      background-color: #4267B2;
-      color: white;
-      font-size: 1.2rem;
-      border: none;
+    .register-form button {
       width: 100%;
+      padding: 10px;
+      background-color: #1877f2;
+      color: white;
+      border: none;
       border-radius: 8px;
+      font-size: 1em;
       cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #365899;
-    }
-
-    .reviews {
-      max-width: 800px;
-      margin: 3rem auto;
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-    }
-
-    .review {
-      border-bottom: 1px solid #eee;
-      padding: 1rem 0;
-    }
-
-    .stars {
-      color: gold;
-      font-size: 1.2rem;
     }
 
     footer {
       text-align: center;
-      padding: 1.5rem;
-      font-size: 0.9rem;
-      background: #f1f1f1;
-      margin-top: 3rem;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .testimonials {
+      text-align: center;
+      margin: 40px 20px;
+    }
+
+    .testimonial {
+      margin: 10px auto;
+      max-width: 600px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
     }
   </style>
 </head>
@@ -119,58 +111,71 @@
 
   <header>
     <h1>FriendlyTouch</h1>
-    <p>Conosci nuove persone ogni giorno, con un tocco di magia.</p>
+    <p>Incontra nuovi amici in tutto il mondo</p>
   </header>
 
-  <section class="hero">
-    <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" alt="Amicizia colorata">
-  </section>
+  <nav>
+    <img src="https://flagcdn.com/w40/it.png" alt="IT" onclick="setLang('it')">
+    <img src="https://flagcdn.com/w40/gb.png" alt="EN" onclick="setLang('en')">
+    <img src="https://flagcdn.com/w40/es.png" alt="ES" onclick="setLang('es')">
+    <img src="https://flagcdn.com/w40/jp.png" alt="JP" onclick="setLang('jp')">
+  </nav>
 
-  <div class="container">
-    <h2>Registrati gratuitamente</h2>
-    <form onsubmit="alert('Registrazione inviata con successo!'); return false;">
-      <label for="name">Nome</label>
-      <input type="text" id="name" name="name" required>
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="gender">Sesso</label>
-      <select id="gender" name="gender">
-        <option value="female">Donna</option>
-        <option value="male">Uomo</option>
-        <option value="other">Altro</option>
-      </select>
-
-      <label for="age">Età</label>
-      <input type="number" id="age" name="age" min="18" max="100" required>
-
-      <label for="city">Città</label>
-      <input type="text" id="city" name="city" required>
-
-      <button type="submit">Inizia a conoscere persone!</button>
-    </form>
+  <div class="hero">
+    <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659" alt="Friends">
+    <h1 id="headline">Connetti. Scopri. Vivi.</h1>
+    <p id="subtext">Una piattaforma semplice per trovare amici reali in tutto il mondo.</p>
   </div>
 
-  <div class="reviews">
-    <h2>Recensioni utenti</h2>
-    <div class="review">
-      <strong>Maria89</strong> <span class="stars">★★★★★</span>
-      <p>Grazie a FriendlyTouch ho conosciuto una persona fantastica!</p>
-    </div>
-    <div class="review">
-      <strong>Luca22</strong> <span class="stars">★★★★★</span>
-      <p>Non pensavo potesse essere così semplice e divertente.</p>
-    </div>
-    <div class="review">
-      <strong>Satoshi</strong> <span class="stars">★★★★★</span>
-      <p>Esperienza top! Consiglio a tutti di provarla.</p>
-    </div>
+  <div class="register-form">
+    <h2 id="register">Registrati gratuitamente</h2>
+    <input type="text" placeholder="Nome utente" />
+    <input type="email" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button onclick="alert('Registrazione completata!')">Registrati</button>
+  </div>
+
+  <div class="testimonials">
+    <h2>Recensioni</h2>
+    <div class="testimonial">"App fantastica, ho conosciuto persone incredibili!" - Luca</div>
+    <div class="testimonial">"Design semplice e idea originale. 5 stelle!" - Ryan</div>
+    <div class="testimonial">"Mi sento connessa al mondo grazie a FriendlyTouch!" - Anna</div>
   </div>
 
   <footer>
-    &copy; 2025 FriendlyTouch. Tutti i diritti riservati.
+    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+    <p><a href="#">Termini e Condizioni</a> | <a href="#">Privacy</a></p>
   </footer>
+
+  <script>
+    function setLang(lang) {
+      const texts = {
+        it: {
+          headline: "Connetti. Scopri. Vivi.",
+          subtext: "Una piattaforma semplice per trovare amici reali in tutto il mondo.",
+          register: "Registrati gratuitamente"
+        },
+        en: {
+          headline: "Connect. Discover. Live.",
+          subtext: "A simple platform to meet real friends worldwide.",
+          register: "Sign Up for Free"
+        },
+        es: {
+          headline: "Conecta. Descubre. Vive.",
+          subtext: "Una plataforma sencilla para encontrar amigos reales.",
+          register: "Regístrate gratis"
+        },
+        jp: {
+          headline: "つながる・発見・楽しむ",
+          subtext: "世界中の友達とつながるシンプルなアプリ",
+          register: "無料登録"
+        }
+      };
+      document.getElementById('headline').textContent = texts[lang].headline;
+      document.getElementById('subtext').textContent = texts[lang].subtext;
+      document.getElementById('register').textContent = texts[lang].register;
+    }
+  </script>
 
 </body>
 </html>
