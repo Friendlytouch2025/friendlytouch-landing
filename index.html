@@ -1,88 +1,136 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
+<!DOCTYPE html><html lang="it"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FriendlyTouch</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" type="image/png">
   <style>
     body {
-      font-family: sans-serif;
-      background: #f0f4f8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
       margin: 0;
       padding: 0;
-    }
-    header {
-      background: #007bff;
-      color: white;
+      color: #333;
       text-align: center;
-      padding: 20px;
-    }
-    .container {
-      max-width: 400px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    input, button, select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-    .error, .success {
-      text-align: center;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-    .error { color: red; }
-    .success { color: green; }
-    .stripe-btn {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      padding: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      display: block;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
+    }header {
+  background-color: #1877F2;
+  color: white;
+  padding: 2rem 1rem;
+}
+
+header img {
+  width: 60px;
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.2em;
+}
+
+.language-switch {
+  margin-top: 1rem;
+  font-size: 0.9em;
+}
+
+.language-switch span {
+  cursor: pointer;
+  color: white;
+  margin: 0 5px;
+  text-decoration: underline;
+}
+
+.container {
+  padding: 2rem 1rem;
+  max-width: 600px;
+  margin: auto;
+}
+
+input,
+select {
+  padding: 10px;
+  margin: 5px;
+  width: 80%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.btn, .btn-login {
+  background-color: #1877F2;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 6px;
+  margin: 10px auto;
+  cursor: pointer;
+  display: block;
+}
+
+#status {
+  margin-top: 10px;
+  font-weight: bold;
+  color: green;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: underline;
+}
+
+  </style>  <!-- Firebase -->  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script></head><body>
   <header>
-    <h1 id="title">FriendlyTouch</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="logo stretta di mano">
+    <h1 id="title">Benvenuto su FriendlyTouch</h1>
     <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
-    <select id="language" onchange="changeLanguage()">
-      <option value="it">Italiano</option>
-      <option value="en">English</option>
-      <option value="es">Español</option>
-    </select>
-  </header>
+    <div class="language-switch">
+      <span onclick="switchLang('it')">IT</span> |
+      <span onclick="switchLang('en')">EN</span> |
+      <span onclick="switchLang('es')">ES</span>
+    </div>
+  </header>  <div class="container">
+    <h3 id="desc">Registrati per iniziare</h3><input type="text" id="nome" placeholder="Nome" required>
+<select id="sesso">
+  <option value="maschio">Maschio</option>
+  <option value="femmina">Femmina</option>
+  <option value="altro">Altro</option>
+</select>
+<input type="number" id="eta" placeholder="Età" required>
+<input type="text" id="citta" placeholder="Città" required>
+<input type="email" id="email" placeholder="Email" required>
+<input type="password" id="password" placeholder="Password" required>
+<button class="btn-login" onclick="register()">Registrati</button>
 
-  <div class="container">
-    <h2 id="form-title">Registrazione / Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="register()" id="register-btn">Registrati</button>
-    <button onclick="login()" id="login-btn">Login</button>
-    <div id="message" class="error"></div>
+<hr>
+<h3>Login</h3>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPassword" placeholder="Password">
+<button class="btn-login" onclick="login()">Login</button>
+<p><a href="#" onclick="resetPassword()">Password dimenticata?</a></p>
+<button class="btn-login" onclick="logout()">Logout</button>
 
-    <hr>
+<hr>
+<button class="btn" onclick="window.location.href='https://buy.stripe.com/8wMeYc1JE35J7K04gh'" id="payButton">
+  Trova un amico (2€)
+</button>
 
-    <p id="download-text">Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
-    <a href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" class="stripe-btn" id="stripe-btn">
-      Trova un amico/a (2€)
-    </a>
-  </div>
+<div id="status"></div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<hr>
+<div id="profilo"></div>
+<h3>Altri utenti:</h3>
+<ul id="utentiList"></ul>
 
-  <script>
+  </div>  <footer>
+    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+  </footer>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
       authDomain: "friendly-touch.firebaseapp.com",
@@ -93,80 +141,104 @@
       appId: "1:777437599506:web:39882c04552665367d45cb",
       measurementId: "G-5RRLGDN5MM"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.database();
 
     function register() {
+      const nome = document.getElementById("nome").value;
+      const sesso = document.getElementById("sesso").value;
+      const eta = document.getElementById("eta").value;
+      const citta = document.getElementById("citta").value;
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
       auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          showMessage("Registrazione completata!", "success");
+        .then((userCredential) => {
+          const user = userCredential.user;
+          db.ref("utenti/" + user.uid).set({ nome, sesso, eta, citta, email });
+          document.getElementById("status").textContent = "Registrazione completata!";
+          mostraProfilo(user.uid);
         })
-        .catch(error => {
-          showMessage(error.message, "error");
-        });
+        .catch(error => document.getElementById("status").textContent = "Errore: " + error.message);
     }
 
     function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          showMessage("Accesso riuscito!", "success");
+        .then(userCred => {
+          document.getElementById("status").textContent = "Login effettuato!";
+          mostraProfilo(userCred.user.uid);
+          mostraUtenti();
         })
-        .catch(error => {
-          showMessage(error.message, "error");
-        });
+        .catch(error => document.getElementById("status").textContent = "Errore: " + error.message);
     }
 
-    function showMessage(text, type) {
-      const msg = document.getElementById("message");
-      msg.textContent = text;
-      msg.className = type;
+    function logout() {
+      auth.signOut();
+      document.getElementById("profilo").innerHTML = "";
+      document.getElementById("status").textContent = "Disconnesso.";
     }
 
-    function changeLanguage() {
-      const lang = document.getElementById("language").value;
-      const texts = {
-        it: {
-          title: "FriendlyTouch",
-          subtitle: "Connettiti con un nuovo amico/a casualmente!",
-          formTitle: "Registrazione / Login",
-          registerBtn: "Registrati",
-          loginBtn: "Login",
-          downloadText: "Scarica subito la nostra app e inizia a conoscere nuove persone!",
-          stripeBtn: "Trova un amico/a (2€)"
-        },
-        en: {
-          title: "FriendlyTouch",
-          subtitle: "Connect with a new friend randomly!",
-          formTitle: "Register / Login",
-          registerBtn: "Register",
-          loginBtn: "Login",
-          downloadText: "Download our app and start meeting new people!",
-          stripeBtn: "Find a friend (2€)"
-        },
-        es: {
-          title: "FriendlyTouch",
-          subtitle: "¡Conéctate con un nuevo amigo/a al azar!",
-          formTitle: "Registro / Inicio de sesión",
-          registerBtn: "Registrarse",
-          loginBtn: "Iniciar sesión",
-          downloadText: "¡Descarga nuestra app y empieza a conocer nuevas personas!",
-          stripeBtn: "Encuentra un amigo/a (2€)"
+    function resetPassword() {
+      const email = prompt("Inserisci la tua email per resettare la password:");
+      if (email) {
+        auth.sendPasswordResetEmail(email)
+          .then(() => alert("Email inviata!"))
+          .catch(err => alert("Errore: " + err.message));
+      }
+    }
+
+    function mostraProfilo(uid) {
+      db.ref("utenti/" + uid).once("value").then(snapshot => {
+        const data = snapshot.val();
+        document.getElementById("profilo").innerHTML = `<h3>Il tuo profilo</h3>
+          <p>Nome: ${data.nome}</p>
+          <p>Sesso: ${data.sesso}</p>
+          <p>Età: ${data.eta}</p>
+          <p>Città: ${data.citta}</p>`;
+      });
+    }
+
+    function mostraUtenti() {
+      db.ref("utenti").once("value").then(snapshot => {
+        const utenti = snapshot.val();
+        const ul = document.getElementById("utentiList");
+        ul.innerHTML = "";
+        for (let id in utenti) {
+          const user = utenti[id];
+          ul.innerHTML += `<li>${user.nome}, ${user.sesso}, ${user.eta}, ${user.citta}</li>`;
         }
-      };
-
-      const t = texts[lang];
-      document.getElementById("title").textContent = t.title;
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("form-title").textContent = t.formTitle;
-      document.getElementById("register-btn").textContent = t.registerBtn;
-      document.getElementById("login-btn").textContent = t.loginBtn;
-      document.getElementById("download-text").textContent = t.downloadText;
-      document.getElementById("stripe-btn").textContent = t.stripeBtn;
+      });
     }
-  </script>
-</body>
-</html>
+
+    const translations = {
+      it: {
+        title: "Benvenuto su FriendlyTouch",
+        subtitle: "Connettiti con un nuovo amico/a casualmente!",
+        desc: "Registrati per iniziare",
+        button: "Trova un amico (2€)"
+      },
+      en: {
+        title: "Welcome to FriendlyTouch",
+        subtitle: "Connect with a new friend randomly!",
+        desc: "Register to get started",
+        button: "Find a friend (€2)"
+      },
+      es: {
+        title: "Bienvenido a FriendlyTouch",
+        subtitle: "¡Conéctate con un nuevo amigo al azar!",
+        desc: "Regístrate para empezar",
+        button: "Buscar un amigo (2 €)"
+      }
+    };
+
+    function switchLang(lang) {
+      document.getElementById("title").textContent = translations[lang].title;
+      document.getElementById("subtitle").textContent = translations[lang].subtitle;
+      document.getElementById("desc").textContent = translations[lang].desc;
+      document.getElementById("payButton").textContent = translations[lang].button;
+    }
+  </script></body></html>
