@@ -1,71 +1,58 @@
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(FriendlyTouchApp());
-}
-
-class FriendlyTouchApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FriendlyTouch',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: WelcomeScreen(),
-    );
-  }
-}
-
-class WelcomeScreen extends StatelessWidget {
-  // Schermata di benvenuto
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('FriendlyTouch'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Benvenuto su FriendlyTouch!', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 20),
-            ElevatedButton(
-              child: Text('Trova un amico (1€)'),
-              onPressed: () {
-                // In futuro qui inseriremo il sistema di pagamento e match
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MatchScreen()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MatchScreen extends StatelessWidget {
-  // Schermata del match casuale: per ora simula un match casuale
-  final List<String> utenti = ['Luca23', 'Anna11', 'Ryan34', 'Marco77', 'Vale88'];
-
-  @override
-  Widget build(BuildContext context) {
-    final randomUser = (utenti..shuffle()).first;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Il tuo nuovo amico!'),
-      ),
-      body: Center(
-        child: Text(
-          'Hai trovato: $randomUser',
-          style: TextStyle(fontSize: 28, color: Colors.green),
-        ),
-      ),
-    );
-  }
-}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FriendlyTouch - Trova il tuo Amico</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6f0ff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 20px;
+    }
+    main {
+      padding: 20px;
+    }
+    .btn {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 20px 0;
+      text-decoration: none;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FriendlyTouch</h1>
+    <p>Connettiti con un amico casuale pagando solo 1€</p>
+  </header>
+  <main>
+    <p>Scarica subito la nostra app demo e inizia a incontrare nuovi amici!</p>
+    <!-- Bottone per pagamento che reindirizza al Payment Link Stripe -->
+    <a class="btn" href="YOUR_STRIPE_PAYMENT_LINK" target="_blank">Paga 1€ e Scarica l'App</a>
+  </main>
+  <footer>
+    <p>© 2023 FriendlyTouch. Tutti i diritti riservati.</p>
+  </footer>
+</body>
+</html>
