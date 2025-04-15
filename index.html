@@ -82,7 +82,7 @@
 <body>
   <header>
     <h1 id="title">Benvenuto su FriendlyTouch</h1>
-    <p id="subtitle">Connettiti con un nuovo amico ogni giorno!</p>
+    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
     <div class="language-switch">
       <span onclick="switchLang('it')">IT</span> | 
       <span onclick="switchLang('en')">EN</span>
@@ -90,17 +90,18 @@
   </header>
 
   <div class="container">
-    <p id="desc">Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
-    <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank" id="buttonText">
-      Paga 1€ e Scarica l'App
-    </a>
-
-    <hr><h3>Registrazione/Login</h3>
+    <h2>Registrazione / Login</h2>
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="Password" />
     <button class="btn-login" onclick="register()">Registrati</button>
     <button class="btn-login" onclick="login()">Login</button>
     <div id="status"></div>
+
+    <hr>
+    <p id="desc">Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
+    <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank" id="buttonText">
+      Trova un amico/a (1€)
+    </a>
   </div>
 
   <footer>
@@ -111,17 +112,21 @@
     </p>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+
   <script>
+    // Configurazione Firebase del tuo progetto
     const firebaseConfig = {
-      apiKey: "INSERISCI_LA_TUA_APIKEY",
-      authDomain: "INSERISCI.firebaseapp.com",
-      projectId: "INSERISCI",
-      storageBucket: "INSERISCI.appspot.com",
-      messagingSenderId: "1234567890",
-      appId: "1:1234567890:web:abcdef"
+      apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
+      authDomain: "friendly-touch.firebaseapp.com",
+      databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "friendly-touch",
+      storageBucket: "friendly-touch.firebasestorage.app",
+      messagingSenderId: "777437599506",
+      appId: "1:777437599506:web:39882c04552665367d45cb",
+      measurementId: "G-5RRLGDN5MM"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -131,30 +136,38 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       auth.createUserWithEmailAndPassword(email, password)
-        .then(() => document.getElementById("status").textContent = "Registrazione completata!")
-        .catch(err => document.getElementById("status").textContent = "Errore: " + err.message);
+        .then(() => {
+          document.getElementById("status").textContent = "Registrazione completata!";
+        })
+        .catch(err => {
+          document.getElementById("status").textContent = "Errore: " + err.message;
+        });
     }
 
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => document.getElementById("status").textContent = "Accesso effettuato!")
-        .catch(err => document.getElementById("status").textContent = "Errore: " + err.message);
+        .then(() => {
+          document.getElementById("status").textContent = "Accesso effettuato!";
+        })
+        .catch(err => {
+          document.getElementById("status").textContent = "Errore: " + err.message;
+        });
     }
 
     const translations = {
       it: {
         title: "Benvenuto su FriendlyTouch",
-        subtitle: "Connettiti con un nuovo amico ogni giorno!",
+        subtitle: "Connettiti con un nuovo amico/a casualmente!",
         desc: "Scarica subito la nostra app e inizia a conoscere nuove persone!",
-        button: "Paga 1€ e Scarica l'App"
+        button: "Trova un amico/a (1€)"
       },
       en: {
         title: "Welcome to FriendlyTouch",
         subtitle: "Connect with a new friend every day!",
         desc: "Download our app now and start meeting new people!",
-        button: "Pay €1 and Download App"
+        button: "Find a friend (€1)"
       }
     };
 
@@ -163,3 +176,7 @@
       document.getElementById("subtitle").textContent = translations[lang].subtitle;
       document.getElementById("desc").textContent = translations[lang].desc;
       document.getElementById("buttonText").textContent = translations[lang].button;
+    }
+  </script>
+</body>
+</html>
