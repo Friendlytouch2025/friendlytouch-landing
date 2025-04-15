@@ -16,10 +16,6 @@
       color: white;
       padding: 20px;
     }
-    .logo {
-      width: 100px;
-      margin-bottom: 10px;
-    }
     .container {
       max-width: 400px;
       margin: 20px auto;
@@ -47,42 +43,46 @@
       padding: 12px;
       font-size: 16px;
       cursor: pointer;
-      display: block;
       text-decoration: none;
+      display: inline-block;
     }
-    .profile {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
+    #logo {
+      width: 100px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
-<body>  <header>
-    <img src="https://uploadthing.com/f/70c7ecac-a5ee-4bb1-b182-bbc04c2c0db5_logo.png" class="logo" alt="Logo">
-    <h1>FriendlyTouch</h1>
-    <p>Connettiti con un nuovo amico/a casualmente!</p>
-  </header>  <div class="container" id="initial">
-    <button onclick="startApp()" class="stripe-btn">Trova un amico</button>
-  </div>  <div class="container" id="auth-section" style="display:none">
-    <h3>Registrazione</h3>
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <input id="name" placeholder="Nome">
-    <input id="age" placeholder="Età">
-    <input id="city" placeholder="Città">
-    <select id="gender">
-      <option value="">Genere</option>
-      <option value="Maschio">Maschio</option>
-      <option value="Femmina">Femmina</option>
-    </select>
-    <input id="photo" type="text" placeholder="Link foto profilo">
-    <button onclick="register()">Registrati e Paga 2€</button>
-    <div id="msg"></div>
-  </div>  <div class="container" id="match-section" style="display:none">
-    <div class="profile" id="friend-profile"></div>
-    <a href="https://buy.stripe.com/3cs4ji6xocDbcRa4gh" class="stripe-btn" target="_blank">Nuovo amico/a (1€)</a>
-  </div>  <!-- Firebase -->  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>  <script>
+<body>
+  <header>
+    <img src="logo.png" id="logo" alt="FriendlyTouch Logo">
+    <h1 id="title">FriendlyTouch</h1>
+    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
+  </header>  <div class="container" id="start-page">
+    <a href="#" class="stripe-btn" onclick="showRegister()">Trova un amico</a>
+  </div>  <div class="container" id="register-page" style="display:none;">
+    <h2 id="form-title">Registrazione</h2>
+    <input type="text" id="name" placeholder="Nome">
+    <input type="text" id="gender" placeholder="Sesso">
+    <input type="number" id="age" placeholder="Età">
+    <input type="text" id="city" placeholder="Città">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="file" id="photo">
+    <button onclick="register()">Registrati</button>
+    <a href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" class="stripe-btn">Paga 2€ per iniziare</a>
+    <div id="message" class="error"></div>
+  </div>  <div class="container" id="login-page" style="display:none;">
+    <h2>Login</h2>
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div id="login-message" class="error"></div>
+  </div>  <div class="container" id="user-page" style="display:none;">
+    <h2>Trova un Amico</h2>
+    <button onclick="findFriend()">Trova (1€)</button>
+    <a href="https://buy.stripe.com/test_dR6aHN1JE3hP7Ko3cd" class="stripe-btn">Paga 1€</a>
+    <div id="friend-profile"></div>
+  </div>  <!-- Firebase SDK -->  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
       authDomain: "friendly-touch.firebaseapp.com",
@@ -94,51 +94,58 @@
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
+    const db = firebase.database();
 
-    function startApp() {
-      document.getElementById('initial').style.display = 'none';
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          document.getElementById('match-section').style.display = 'block';
-          loadRandomProfile();
-        } else {
-          document.getElementById('auth-section').style.display = 'block';
-        }
-      });
+    function showRegister() {
+      document.getElementById("start-page").style.display = "none";
+      document.getElementById("register-page").style.display = "block";
     }
 
     function register() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const name = document.getElementById("name").value;
+      const gender = document.getElementById("gender").value;
       const age = document.getElementById("age").value;
       const city = document.getElementById("city").value;
-      const gender = document.getElementById("gender").value;
-      const photo = document.getElementById("photo").value;
 
-      auth.createUserWithEmailAndPassword(email, password).then(cred => {
-        return db.collection("users").doc(cred.user.uid).set({
-          email, name, age, city, gender, photo, joinedAt: Date.now()
+      auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
+        const uid = userCredential.user.uid;
+        db.ref('users/' + uid).set({
+          name, gender, age, city
         });
-      }).then(() => {
-        document.getElementById("msg").innerHTML = "Registrazione riuscita. Procedi al pagamento di 2€";
-        window.open("https://buy.stripe.com/8wMeYc1JE35J7K04gh", "_blank");
-      }).catch(err => {
-        document.getElementById("msg").innerHTML = err.message;
+        document.getElementById("register-page").style.display = "none";
+        document.getElementById("login-page").style.display = "block";
+      }).catch(error => {
+        document.getElementById("message").textContent = error.message;
       });
     }
 
-    function loadRandomProfile() {
-      db.collection("users").get().then(snapshot => {
-        const profiles = snapshot.docs.map(doc => doc.data());
-        const rand = profiles[Math.floor(Math.random() * profiles.length)];
-        document.getElementById("friend-profile").innerHTML = `
-          <h3>${rand.name}</h3>
-          <p>${rand.gender}, ${rand.age} anni</p>
-          <p>${rand.city}</p>
-          <img src="${rand.photo}" alt="Foto" style="max-width:100%; border-radius:10px;">
-        `;
+    function login() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      auth.signInWithEmailAndPassword(email, password).then(() => {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("user-page").style.display = "block";
+      }).catch(error => {
+        document.getElementById("login-message").textContent = error.message;
+      });
+    }
+
+    function findFriend() {
+      db.ref('users').once('value').then(snapshot => {
+        const users = snapshot.val();
+        const currentUid = auth.currentUser.uid;
+        const keys = Object.keys(users).filter(k => k !== currentUid);
+        if (keys.length === 0) return;
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        const friend = users[randomKey];
+        document.getElementById("friend-profile").innerHTML =
+          `<h3>${friend.name}</h3>
+          <p>Sesso: ${friend.gender}</p>
+          <p>Età: ${friend.age}</p>
+          <p>Città: ${friend.city}</p>`;
       });
     }
   </script></body>
