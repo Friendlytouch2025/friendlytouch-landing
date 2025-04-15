@@ -3,58 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FriendlyTouch - Trova il tuo Amico</title>
+  <title>FriendlyTouch - Connettiti con un Amico</title>
   <style>
+    /* Impostazioni globali */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #e6f0ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
       margin: 0;
       padding: 0;
       text-align: center;
+      color: #333;
     }
     header {
-      background-color: #4f46e5;
+      background-color: #1877F2; /* Blu Facebook */
       color: white;
-      padding: 20px;
+      padding: 30px 20px;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+    header p {
+      font-size: 1.2em;
+      margin: 10px 0 0;
     }
     main {
-      padding: 20px;
+      padding: 40px 20px;
+    }
+    main p {
+      font-size: 1.3em;
     }
     .btn {
-      background-color: #4f46e5;
+      display: inline-block;
+      background-color: #1877F2;
       color: white;
       border: none;
-      padding: 15px 30px;
-      font-size: 18px;
+      padding: 15px 40px;
+      font-size: 1.2em;
       border-radius: 8px;
       cursor: pointer;
-      margin: 20px 0;
+      margin: 30px 0;
       text-decoration: none;
+      transition: opacity 0.3s ease;
     }
     .btn:hover {
       opacity: 0.9;
     }
     footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
+      background-color: #f0f2f5;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #666;
+      border-top: 1px solid #ccc;
+    }
+    footer a {
+      color: #1877F2;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>FriendlyTouch</h1>
-    <p>Connettiti con un amico casuale pagando solo 1€</p>
+    <div class="container">
+      <h1>FriendlyTouch</h1>
+      <p>Connettiti con un amico casuale pagando solo 1€</p>
+    </div>
   </header>
   <main>
-    <p>Scarica subito la nostra app demo e inizia a incontrare nuovi amici!</p>
-    <!-- Inserisci il Payment Link di Stripe che hai creato -->
-    <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank">
-      Paga 1€ e Scarica l'App
-    </a>
+    <div class="container">
+      <p>Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
+      <!-- Bottone che reindirizza al Payment Link Stripe -->
+      <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank">
+        Paga 1€ e Scarica l'App
+      </a>
+    </div>
   </main>
   <footer>
-    <p>© 2023 FriendlyTouch. Tutti i diritti riservati.</p>
+    <div class="container">
+      <p>© 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+      <p>
+        <a href="https://yourdomain.com/termini" target="_blank">Termini & Condizioni</a> |
+        <a href="https://yourdomain.com/privacy" target="_blank">Politica sulla Privacy</a>
+      </p>
+    </div>
   </footer>
 </body>
 </html>
