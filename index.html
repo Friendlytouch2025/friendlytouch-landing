@@ -1,184 +1,57 @@
-<!DOCTYPE html><html lang="it">
+<!DOCTYPE html>
+<html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FriendlyTouch</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f3f4f6;
       text-align: center;
-      padding: 20px;
-      background-color: #f9f9f9;
     }
-    #logo {
-      max-width: 200px;
-      margin-bottom: 20px;
+    h1 {
+      color: #4f46e5;
     }
     button {
-      background-color: #007bff;
+      background: #4f46e5;
       color: white;
-      padding: 15px 30px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 18px;
       cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .hidden {
-      display: none;
-    }
-    input, select {
-      margin: 10px;
-      padding: 10px;
-      width: 80%;
-    }
-    #profile-card {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       margin-top: 20px;
     }
-    img.user-photo {
-      width: 150px;
-      border-radius: 10px;
+    .user-box {
+      margin-top: 30px;
+      font-size: 22px;
+      color: #111827;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
     }
   </style>
 </head>
 <body>
-  <img id="logo" src="logo.png" alt="Logo Stretta di Mano">
-  <h1 id="app-title">FriendlyTouch</h1>  <div id="cta-screen">
-    <button onclick="startApp()">Trova un amico</button>
-  </div>  <div id="registration-screen" class="hidden">
-    <h2>Registrati</h2>
-    <input type="text" id="name" placeholder="Nome">
-    <select id="gender">
-      <option value="male">Maschio</option>
-      <option value="female">Femmina</option>
-      <option value="other">Altro</option>
-    </select>
-    <input type="number" id="age" placeholder="Età">
-    <input type="text" id="city" placeholder="Città">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <input type="file" id="photo">
-    <button onclick="registerUser()">Registrati e Paga 2€</button>
-  </div>  <div id="login-screen" class="hidden">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-    <button onclick="loginUser()">Login</button>
-  </div>  <div id="main-screen" class="hidden">
-    <button onclick="payAndFindFriend()">Trova un amico (1€)</button>
-    <button onclick="logout()">Logout</button>
-    <div id="profile-card" class="hidden">
-      <img class="user-photo" id="friend-photo" src="" alt="Foto amico">
-      <p><strong>Nome:</strong> <span id="friend-name"></span></p>
-      <p><strong>Sesso:</strong> <span id="friend-gender"></span></p>
-      <p><strong>Età:</strong> <span id="friend-age"></span></p>
-      <p><strong>Città:</strong> <span id="friend-city"></span></p>
-    </div>
-  </div>  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>  <script src="https://js.stripe.com/v3/"></script>  <script>
-    // CONFIGURAZIONE FIREBASE
-    const firebaseConfig = {
-      apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
-      authDomain: "friendly-touch.firebaseapp.com",
-      databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "friendly-touch",
-      storageBucket: "friendly-touch.appspot.com",
-      messagingSenderId: "777437599506",
-      appId: "1:777437599506:web:39882c04552665367d45cb",
-      measurementId: "G-5RRLGDN5MM"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+  <h1>Benvenuto su FriendlyTouch</h1>
+  <p>Connettiti casualmente con un nuovo amico ogni volta che clicchi!</p>
+  <button onclick="trovaAmico()">Trova un amico (1€)</button>
+  <div class="user-box" id="amico"></div>
 
-    const stripe = Stripe('pk_live_51RDp7BCR5QCsMsEHzHsMAWzhlIL0PXnNSuqM7DRd4prAssMSVB8SrL6ttw3oO6G0LhlxBj3NbKuP0R5Q8Vci4yb600sLcj3V7O');
+  <script>
+    const utenti = ["Luca23", "Anna11", "Ryan34"];
 
-    function startApp() {
-      document.getElementById('cta-screen').classList.add('hidden');
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          showMainScreen();
-        } else {
-          document.getElementById('registration-screen').classList.remove('hidden');
-        }
-      });
+    function trovaAmico() {
+      const casuale = utenti[Math.floor(Math.random() * utenti.length)];
+      document.getElementById("amico").innerText = "Hai trovato: " + casuale;
     }
-
-    async function registerUser() {
-      const name = document.getElementById('name').value;
-      const gender = document.getElementById('gender').value;
-      const age = document.getElementById('age').value;
-      const city = document.getElementById('city').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const photo = document.getElementById('photo').files[0];
-
-      try {
-        const result = await auth.createUserWithEmailAndPassword(email, password);
-        const user = result.user;
-        const photoRef = storage.ref().child('users/' + user.uid + '/profile.jpg');
-        await photoRef.put(photo);
-        const photoURL = await photoRef.getDownloadURL();
-        await db.collection('users').doc(user.uid).set({ name, gender, age, city, photoURL });
-        await startPayment('2');
-        showMainScreen();
-      } catch (error) {
-        alert(error.message);
-      }
-    }
-
-    async function loginUser() {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      try {
-        await auth.signInWithEmailAndPassword(email, password);
-        showMainScreen();
-      } catch (error) {
-        alert(error.message);
-      }
-    }
-
-    async function startPayment(amount) {
-      const session = await fetch(`https://your-backend.com/create-checkout-session?amount=${amount}`);
-      const data = await session.json();
-      window.location = data.url;
-    }
-
-    async function payAndFindFriend() {
-      await startPayment('1');
-      showRandomFriend();
-    }
-
-    function logout() {
-      auth.signOut();
-      location.reload();
-    }
-
-    async function showRandomFriend() {
-      const users = await db.collection('users').get();
-      const currentUser = auth.currentUser.uid;
-      const others = users.docs.filter(doc => doc.id !== currentUser);
-      if (others.length > 0) {
-        const random = others[Math.floor(Math.random() * others.length)].data();
-        document.getElementById('friend-name').innerText = random.name;
-        document.getElementById('friend-gender').innerText = random.gender;
-        document.getElementById('friend-age').innerText = random.age;
-        document.getElementById('friend-city').innerText = random.city;
-        document.getElementById('friend-photo').src = random.photoURL;
-        document.getElementById('profile-card').classList.remove('hidden');
-      }
-    }
-
-    function showMainScreen() {
-      document.getElementById('registration-screen').classList.add('hidden');
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('main-screen').classList.remove('hidden');
-    }
-  </script></body>
+  </script>
+</body>
 </html>
