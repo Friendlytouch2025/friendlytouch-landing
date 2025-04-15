@@ -79,6 +79,25 @@
     }
   </style>
 </head>
+<!-- Firebase App (core) + Auth -->
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js"></script>
+
+<script>
+  // Inserisci qui il tuo firebaseConfig copiato da Firebase
+  const firebaseConfig = {
+    apiKey: "TUO_VALORE",
+    authDomain: "TUO_VALORE",
+    projectId: "TUO_VALORE",
+    storageBucket: "TUO_VALORE",
+    messagingSenderId: "TUO_VALORE",
+    appId: "TUO_VALORE",
+    databaseURL: "TUO_VALORE"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
 <body>
   <header>
     <h1 id="title">Benvenuto su FriendlyTouch</h1>
