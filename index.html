@@ -18,7 +18,7 @@
       padding: 1rem;
     }
     header img {
-      width: 80px;
+      width: 100px;
       margin-bottom: 10px;
     }
     .container {
@@ -35,6 +35,7 @@
       border-radius: 8px;
       text-decoration: none;
       cursor: pointer;
+      margin-top: 10px;
     }
     input, select {
       padding: 10px;
@@ -43,7 +44,12 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-    #registerForm, #loginForm, #userProfile, #findButton, #friendResult {
+    .profile-pic {
+      width: 120px;
+      border-radius: 50%;
+      margin-top: 10px;
+    }
+    #registerForm, #loginForm, #userProfile, #findButton, #friendResult, #paymentLink {
       display: none;
     }
     footer {
@@ -52,18 +58,14 @@
       padding: 1rem;
       font-size: 0.9rem;
     }
-    img.profile-pic {
-      width: 100px;
-      border-radius: 50%;
-      margin: 10px 0;
-    }
   </style>
 </head>
 <body>
 
 <header>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Handshake_icon.svg" alt="Logo stretta di mano">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAABeCAYAAABMa..." alt="Logo FriendlyTouch"> <!-- <-- INSERISCI QUI IL TUO BASE64 -->
   <h1>FriendlyTouch</h1>
+  <p>Connettiti con un nuovo amico o amica, ogni volta diversa!</p>
 </header>
 
 <div class="container">
@@ -72,28 +74,127 @@
   </div>
 
   <div id="registerForm">
-    <h2>Registrati</h2>
-    <input type="text" id="name" placeholder="Nome (solo nome)" required><br>
+    <h2>Registrazione</h2>
+    <input type="text" id="name" placeholder="Nome"><br>
     <select id="gender">
       <option value="">Sesso</option>
       <option value="Maschio">Maschio</option>
       <option value="Femmina">Femmina</option>
     </select><br>
-    <input type="number" id="age" placeholder="Età" required><br>
-    <input type="text" id="city" placeholder="Città" required><br>
-    <input type="email" id="email" placeholder="Email" required><br>
-    <input type="password" id="password" placeholder="Password" required><br>
-    <input type="text" id="photo" placeholder="URL della tua foto"><br>
+    <input type="number" id="age" placeholder="Età"><br>
+    <input type="text" id="city" placeholder="Città"><br>
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="password" id="password"><br>
+    <input type="text" id="photo" placeholder="URL foto profilo"><br>
     <button class="btn" onclick="register()">Registrati</button>
   </div>
 
-  <div id="paymentLink" style="display:none;">
-    <h3>Pagamento iniziale (2€)</h3>
-    <a class="btn" href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" target="_blank">Paga 2€ per iniziare</a><br><br>
-    <button onclick="showLogin()" class="btn">Ho già pagato</button>
+  <div id="paymentLink">
+    <h3>Pagamento iniziale di attivazione (2€)</h3>
+    <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank">Paga 2€</a><br><br>
+    <button class="btn" onclick="showLogin()">Ho già pagato</button>
   </div>
 
   <div id="loginForm">
     <h2>Login</h2>
     <input type="email" id="loginEmail" placeholder="Email"><br>
-    <input type="password" id="login
+    <input type="password" id="loginPassword" placeholder="Password"><br>
+    <button class="btn" onclick="login()">Login</button>
+  </div>
+
+  <div id="findButton">
+    <h2>Benvenuto!</h2>
+    <button class="btn" onclick="findFriend()">Trova un nuovo amico (1€)</button>
+  </div>
+
+  <div id="friendResult"></div>
+  <div id="status"></div>
+</div>
+
+<footer>
+  <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
+    authDomain: "friendly-touch.firebaseapp.com",
+    projectId: "friendly-touch",
+    storageBucket: "friendly-touch.appspot.com",
+    messagingSenderId: "777437599506",
+    appId: "1:777437599506:web:39882c04552665367d45cb"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  function startApp() {
+    document.getElementById("start").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+  }
+
+  function register() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const name = document.getElementById("name").value;
+    const gender = document.getElementById("gender").value;
+    const age = document.getElementById("age").value;
+    const city = document.getElementById("city").value;
+    const photo = document.getElementById("photo").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((cred) => {
+        return db.collection("users").doc(cred.user.uid).set({
+          name, gender, age, city, photo
+        });
+      })
+      .then(() => {
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("paymentLink").style.display = "block";
+      })
+      .catch(err => {
+        document.getElementById("status").innerText = "Errore: " + err.message;
+      });
+  }
+
+  function showLogin() {
+    document.getElementById("paymentLink").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+  }
+
+  function login() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+    auth.signInWithEmailAndPassword(email, password)
+      .then(() => {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("findButton").style.display = "block";
+      })
+      .catch(err => {
+        document.getElementById("status").innerText = "Errore: " + err.message;
+      });
+  }
+
+  function findFriend() {
+    window.open("https://buy.stripe.com/test_14k6rG2Co5eJbzqeUV", "_blank"); // pagamento 1€
+    db.collection("users").get().then(snapshot => {
+      const users = snapshot.docs.map(doc => doc.data());
+      const randomUser = users[Math.floor(Math.random() * users.length)];
+      document.getElementById("friendResult").innerHTML = `
+        <h3>${randomUser.name}</h3>
+        <p>${randomUser.gender}, ${randomUser.age} anni</p>
+        <p>${randomUser.city}</p>
+        ${randomUser.photo ? `<img src="${randomUser.photo}" class="profile-pic">` : ''}
+      `;
+    });
+  }
+</script>
+
+</body>
+</html>
