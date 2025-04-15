@@ -10,16 +10,16 @@
       background-color: #f0f2f5;
       margin: 0;
       padding: 0;
-      color: #333;
       text-align: center;
     }
     header {
       background-color: #1877F2;
       color: white;
-      padding: 2rem 1rem;
+      padding: 1rem;
     }
-    header h1 {
-      font-size: 2.5em;
+    header img {
+      width: 80px;
+      margin-bottom: 10px;
     }
     .container {
       padding: 2rem 1rem;
@@ -27,31 +27,24 @@
       margin: auto;
     }
     .btn {
-      background-color: #635bff;
+      background-color: #28a745;
       color: white;
       padding: 15px 30px;
-      font-size: 1em;
+      font-size: 1.2em;
       border: none;
       border-radius: 8px;
       text-decoration: none;
-      display: inline-block;
-      margin: 1rem auto;
+      cursor: pointer;
     }
-    input {
+    input, select {
       padding: 10px;
-      margin: 5px;
+      margin: 8px;
       width: 80%;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-    .btn-login {
-      background-color: #1877F2;
-      color: white;
-      padding: 10px 20px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+    #registerForm, #loginForm, #userProfile, #findButton, #friendResult {
+      display: none;
     }
     footer {
       background-color: #333;
@@ -59,74 +52,48 @@
       padding: 1rem;
       font-size: 0.9rem;
     }
-    footer a {
-      color: #fff;
-      text-decoration: underline;
+    img.profile-pic {
+      width: 100px;
+      border-radius: 50%;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>FriendlyTouch</h1>
-    <p>Connettiti con un nuovo amico/a casualmente!</p>
-  </header>
+<header>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Handshake_icon.svg" alt="Logo stretta di mano">
+  <h1>FriendlyTouch</h1>
+</header>
 
-  <div class="container">
-    <h2>Registrazione / Login</h2>
-    <input type="email" id="email" placeholder="Email" /><br>
-    <input type="password" id="password" placeholder="Password" /><br>
-    <button class="btn-login" onclick="register()">Registrati</button>
-    <button class="btn-login" onclick="login()">Login</button>
-    <div id="status"></div>
-
-    <hr>
-
-    <h2>Trova un Amico/a</h2>
-    <p>Per iniziare, effettua un pagamento simbolico di 1€</p>
-    <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank">
-      Trova un amico/a (1€)
-    </a>
+<div class="container">
+  <div id="start">
+    <button class="btn" onclick="startApp()">Trova un amico</button>
   </div>
 
-  <footer>
-    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
-  </footer>
+  <div id="registerForm">
+    <h2>Registrati</h2>
+    <input type="text" id="name" placeholder="Nome (solo nome)" required><br>
+    <select id="gender">
+      <option value="">Sesso</option>
+      <option value="Maschio">Maschio</option>
+      <option value="Femmina">Femmina</option>
+    </select><br>
+    <input type="number" id="age" placeholder="Età" required><br>
+    <input type="text" id="city" placeholder="Città" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <input type="text" id="photo" placeholder="URL della tua foto"><br>
+    <button class="btn" onclick="register()">Registrati</button>
+  </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
-      authDomain: "friendly-touch.firebaseapp.com",
-      databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "friendly-touch",
-      storageBucket: "friendly-touch.firebasestorage.app",
-      messagingSenderId: "777437599506",
-      appId: "1:777437599506:web:39882c04552665367d45cb",
-      measurementId: "G-5RRLGDN5MM"
-    };
+  <div id="paymentLink" style="display:none;">
+    <h3>Pagamento iniziale (2€)</h3>
+    <a class="btn" href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" target="_blank">Paga 2€ per iniziare</a><br><br>
+    <button onclick="showLogin()" class="btn">Ho già pagato</button>
+  </div>
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function register() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => document.getElementById("status").textContent = "Registrazione completata!")
-        .catch(err => document.getElementById("status").textContent = "Errore: " + err.message);
-    }
-
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => document.getElementById("status").textContent = "Accesso effettuato!")
-        .catch(err => document.getElementById("status").textContent = "Errore: " + err.message);
-    }
-  </script>
-
-</body>
-</html>
+  <div id="loginForm">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email"><br>
+    <input type="password" id="login
