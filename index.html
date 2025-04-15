@@ -1,99 +1,157 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FriendlyTouch - Connettiti con un Amico</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FriendlyTouch - Connettiti al Caso</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Impostazioni globali */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
       margin: 0;
-      padding: 0;
-      text-align: center;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f2f5;
       color: #333;
     }
     header {
-      background-color: #1877F2; /* Blu Facebook */
+      background-color: #1877f2;
       color: white;
-      padding: 30px 20px;
+      padding: 1rem 2rem;
+      text-align: center;
     }
-    header h1 {
-      font-size: 2.5em;
-      margin: 0;
+    h1 {
+      margin: 0.5rem 0;
+      font-size: 2rem;
     }
-    header p {
-      font-size: 1.2em;
-      margin: 10px 0 0;
+    nav {
+      text-align: right;
+      padding: 0.5rem 2rem;
+    }
+    nav select {
+      padding: 0.5rem;
+      font-size: 1rem;
     }
     main {
-      padding: 40px 20px;
+      padding: 2rem;
+      text-align: center;
     }
-    main p {
-      font-size: 1.3em;
-    }
-    .btn {
-      display: inline-block;
-      background-color: #1877F2;
+    .cta-button {
+      background-color: #1877f2;
       color: white;
+      padding: 1rem 2rem;
       border: none;
-      padding: 15px 40px;
-      font-size: 1.2em;
+      font-size: 1.2rem;
       border-radius: 8px;
       cursor: pointer;
-      margin: 30px 0;
-      text-decoration: none;
-      transition: opacity 0.3s ease;
+      margin-top: 1.5rem;
     }
-    .btn:hover {
-      opacity: 0.9;
+    .section {
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+    .reviews {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .review {
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 240px;
+    }
+    .review img {
+      width: 100%;
+      border-radius: 12px;
     }
     footer {
-      background-color: #f0f2f5;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #666;
-      border-top: 1px solid #ccc;
-    }
-    footer a {
-      color: #1877F2;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
+      background-color: #e4e6eb;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <h1>FriendlyTouch</h1>
-      <p>Connettiti con un amico casuale pagando solo 1€</p>
-    </div>
+    <h1 id="title">FriendlyTouch</h1>
+    <p id="subtitle">Connettiti a uno sconosciuto e trova nuovi amici</p>
   </header>
+
+  <nav>
+    <select onchange="switchLanguage(this.value)">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="jp">日本語</option>
+    </select>
+  </nav>
+
   <main>
-    <div class="container">
-      <p>Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
-      <!-- Bottone che reindirizza al Payment Link Stripe -->
-      <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank">
-        Paga 1€ e Scarica l'App
-      </a>
+    <div class="section">
+      <p id="intro">Iscriviti gratuitamente e inizia a incontrare nuove persone casualmente ogni giorno!</p>
+      <button class="cta-button" onclick="window.location.href='https://friendlytouch2025.github.io/registrati'">Registrati Gratis</button>
+    </div>
+
+    <div class="section">
+      <h2 id="reviews-title">Recensioni degli utenti</h2>
+      <div class="reviews">
+        <div class="review">
+          <img src="https://source.unsplash.com/random/240x160?person-1" alt="user1" />
+          <p>“Ho conosciuto persone stupende grazie a questa app!”<br><strong>- Luca23</strong></p>
+        </div>
+        <div class="review">
+          <img src="https://source.unsplash.com/random/240x160?person-2" alt="user2" />
+          <p>“Un'idea geniale. Semplice e potente.”<br><strong>- Anna11</strong></p>
+        </div>
+        <div class="review">
+          <img src="https://source.unsplash.com/random/240x160?person-3" alt="user3" />
+          <p>“5 stelle meritate! Facile da usare.”<br><strong>- Ryan34</strong></p>
+        </div>
+      </div>
     </div>
   </main>
+
   <footer>
-    <div class="container">
-      <p>© 2025 FriendlyTouch. Tutti i diritti riservati.</p>
-      <p>
-        <a href="https://yourdomain.com/termini" target="_blank">Termini & Condizioni</a> |
-        <a href="https://yourdomain.com/privacy" target="_blank">Politica sulla Privacy</a>
-      </p>
-    </div>
+    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Termini e Condizioni</a></p>
   </footer>
+
+  <script>
+    const translations = {
+      it: {
+        title: "FriendlyTouch",
+        subtitle: "Connettiti a uno sconosciuto e trova nuovi amici",
+        intro: "Iscriviti gratuitamente e inizia a incontrare nuove persone casualmente ogni giorno!",
+        reviewsTitle: "Recensioni degli utenti"
+      },
+      en: {
+        title: "FriendlyTouch",
+        subtitle: "Connect with a stranger and make new friends",
+        intro: "Sign up for free and start meeting random people every day!",
+        reviewsTitle: "User Reviews"
+      },
+      es: {
+        title: "FriendlyTouch",
+        subtitle: "Conéctate con alguien al azar y haz nuevos amigos",
+        intro: "Regístrate gratis y empieza a conocer gente nueva cada día.",
+        reviewsTitle: "Reseñas de usuarios"
+      },
+      jp: {
+        title: "フレンドリータッチ",
+        subtitle: "ランダムな相手とつながって新しい友達を見つけよう",
+        intro: "無料で登録して、毎日新しい人と出会いましょう！",
+        reviewsTitle: "ユーザーレビュー"
+      }
+    };
+
+    function switchLanguage(lang) {
+      document.getElementById("title").innerText = translations[lang].title;
+      document.getElementById("subtitle").innerText = translations[lang].subtitle;
+      document.getElementById("intro").innerText = translations[lang].intro;
+      document.getElementById("reviews-title").innerText = translations[lang].reviewsTitle;
+    }
+  </script>
 </body>
 </html>
