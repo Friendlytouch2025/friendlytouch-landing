@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
+<!DOCTYPE html><html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,12 +9,16 @@
       background: #f0f4f8;
       margin: 0;
       padding: 0;
+      text-align: center;
     }
     header {
       background: #007bff;
       color: white;
-      text-align: center;
       padding: 20px;
+    }
+    .logo {
+      width: 100px;
+      margin-bottom: 10px;
     }
     .container {
       max-width: 400px;
@@ -31,142 +34,112 @@
       font-size: 16px;
     }
     .error, .success {
-      text-align: center;
       margin-bottom: 10px;
       font-weight: bold;
     }
     .error { color: red; }
     .success { color: green; }
     .stripe-btn {
-      background-color: #007bff;
+      background-color: #28a745;
       color: white;
       border: none;
       border-radius: 5px;
-      text-align: center;
       padding: 12px;
       font-size: 16px;
       cursor: pointer;
       display: block;
       text-decoration: none;
     }
+    .profile {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+    }
   </style>
 </head>
-<body>
-  <header>
-    <h1 id="title">FriendlyTouch</h1>
-    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
-    <select id="language" onchange="changeLanguage()">
-      <option value="it">Italiano</option>
-      <option value="en">English</option>
-      <option value="es">Español</option>
+<body>  <header>
+    <img src="https://uploadthing.com/f/70c7ecac-a5ee-4bb1-b182-bbc04c2c0db5_logo.png" class="logo" alt="Logo">
+    <h1>FriendlyTouch</h1>
+    <p>Connettiti con un nuovo amico/a casualmente!</p>
+  </header>  <div class="container" id="initial">
+    <button onclick="startApp()" class="stripe-btn">Trova un amico</button>
+  </div>  <div class="container" id="auth-section" style="display:none">
+    <h3>Registrazione</h3>
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <input id="name" placeholder="Nome">
+    <input id="age" placeholder="Età">
+    <input id="city" placeholder="Città">
+    <select id="gender">
+      <option value="">Genere</option>
+      <option value="Maschio">Maschio</option>
+      <option value="Femmina">Femmina</option>
     </select>
-  </header>
-
-  <div class="container">
-    <h2 id="form-title">Registrazione / Login</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="register()" id="register-btn">Registrati</button>
-    <button onclick="login()" id="login-btn">Login</button>
-    <div id="message" class="error"></div>
-
-    <hr>
-
-    <p id="download-text">Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
-    <a href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" class="stripe-btn" id="stripe-btn">
-      Trova un amico/a (2€)
-    </a>
-  </div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
-  <script>
+    <input id="photo" type="text" placeholder="Link foto profilo">
+    <button onclick="register()">Registrati e Paga 2€</button>
+    <div id="msg"></div>
+  </div>  <div class="container" id="match-section" style="display:none">
+    <div class="profile" id="friend-profile"></div>
+    <a href="https://buy.stripe.com/3cs4ji6xocDbcRa4gh" class="stripe-btn" target="_blank">Nuovo amico/a (1€)</a>
+  </div>  <!-- Firebase -->  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
       authDomain: "friendly-touch.firebaseapp.com",
       databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "friendly-touch",
-      storageBucket: "friendly-touch.firebasestorage.app",
+      storageBucket: "friendly-touch.appspot.com",
       messagingSenderId: "777437599506",
-      appId: "1:777437599506:web:39882c04552665367d45cb",
-      measurementId: "G-5RRLGDN5MM"
+      appId: "1:777437599506:web:39882c04552665367d45cb"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function startApp() {
+      document.getElementById('initial').style.display = 'none';
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          document.getElementById('match-section').style.display = 'block';
+          loadRandomProfile();
+        } else {
+          document.getElementById('auth-section').style.display = 'block';
+        }
+      });
+    }
 
     function register() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          showMessage("Registrazione completata!", "success");
-        })
-        .catch(error => {
-          showMessage(error.message, "error");
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const city = document.getElementById("city").value;
+      const gender = document.getElementById("gender").value;
+      const photo = document.getElementById("photo").value;
+
+      auth.createUserWithEmailAndPassword(email, password).then(cred => {
+        return db.collection("users").doc(cred.user.uid).set({
+          email, name, age, city, gender, photo, joinedAt: Date.now()
         });
+      }).then(() => {
+        document.getElementById("msg").innerHTML = "Registrazione riuscita. Procedi al pagamento di 2€";
+        window.open("https://buy.stripe.com/8wMeYc1JE35J7K04gh", "_blank");
+      }).catch(err => {
+        document.getElementById("msg").innerHTML = err.message;
+      });
     }
 
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          showMessage("Accesso riuscito!", "success");
-        })
-        .catch(error => {
-          showMessage(error.message, "error");
-        });
+    function loadRandomProfile() {
+      db.collection("users").get().then(snapshot => {
+        const profiles = snapshot.docs.map(doc => doc.data());
+        const rand = profiles[Math.floor(Math.random() * profiles.length)];
+        document.getElementById("friend-profile").innerHTML = `
+          <h3>${rand.name}</h3>
+          <p>${rand.gender}, ${rand.age} anni</p>
+          <p>${rand.city}</p>
+          <img src="${rand.photo}" alt="Foto" style="max-width:100%; border-radius:10px;">
+        `;
+      });
     }
-
-    function showMessage(text, type) {
-      const msg = document.getElementById("message");
-      msg.textContent = text;
-      msg.className = type;
-    }
-
-    function changeLanguage() {
-      const lang = document.getElementById("language").value;
-      const texts = {
-        it: {
-          title: "FriendlyTouch",
-          subtitle: "Connettiti con un nuovo amico/a casualmente!",
-          formTitle: "Registrazione / Login",
-          registerBtn: "Registrati",
-          loginBtn: "Login",
-          downloadText: "Scarica subito la nostra app e inizia a conoscere nuove persone!",
-          stripeBtn: "Trova un amico/a (2€)"
-        },
-        en: {
-          title: "FriendlyTouch",
-          subtitle: "Connect with a new friend randomly!",
-          formTitle: "Register / Login",
-          registerBtn: "Register",
-          loginBtn: "Login",
-          downloadText: "Download our app and start meeting new people!",
-          stripeBtn: "Find a friend (2€)"
-        },
-        es: {
-          title: "FriendlyTouch",
-          subtitle: "¡Conéctate con un nuevo amigo/a al azar!",
-          formTitle: "Registro / Inicio de sesión",
-          registerBtn: "Registrarse",
-          loginBtn: "Iniciar sesión",
-          downloadText: "¡Descarga nuestra app y empieza a conocer nuevas personas!",
-          stripeBtn: "Encuentra un amigo/a (2€)"
-        }
-      };
-
-      const t = texts[lang];
-      document.getElementById("title").textContent = t.title;
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("form-title").textContent = t.formTitle;
-      document.getElementById("register-btn").textContent = t.registerBtn;
-      document.getElementById("login-btn").textContent = t.loginBtn;
-      document.getElementById("download-text").textContent = t.downloadText;
-      document.getElementById("stripe-btn").textContent = t.stripeBtn;
-    }
-  </script>
-</body>
+  </script></body>
 </html>
