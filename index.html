@@ -4,24 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FriendlyTouch</title>
-  <style>
-    body { font-family: Arial; background: #f1f1f1; margin: 0; padding: 0; text-align: center; }
-    header { background: #1877F2; color: white; padding: 2rem; }
-    button { background: #1877F2; color: white; padding: 1rem 2rem; border: none; border-radius: 8px; margin-top: 1rem; font-size: 1.2rem; }
-    footer { background: #333; color: white; padding: 1rem; font-size: 0.9rem; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Benvenuto su FriendlyTouch</h1>
-    <p>Connettiti con un nuovo amico ogni giorno!</p>
+    <h1 id="title">Benvenuto su FriendlyTouch</h1>
+    <p id="subtitle">Connettiti con un nuovo amico ogni giorno!</p>
+    <div class="language-switch">
+      <span onclick="switchLang('it')">IT</span> | 
+      <span onclick="switchLang('en')">EN</span>
+    </div>
   </header>
-  <div>
-    <p>Clicca sotto per iniziare gratuitamente!</p>
-    <button onclick="alert('Registrazione in arrivo!')">Iscriviti Gratis</button>
+  <div class="container">
+    <p id="desc">Clicca sotto per iniziare gratuitamente!</p>
+    <button onclick="alert('Prossimamente disponibile!')">Iscriviti Gratis</button>
   </div>
   <footer>
-    <p>&copy; 2025 FriendlyTouch</p>
+    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
+    <a href="#">Termini e condizioni</a> | <a href="#">Privacy Policy</a>
   </footer>
+  <script src="script.js"></script>
 </body>
 </html>
