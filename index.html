@@ -1,182 +1,86 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FriendlyTouch</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      text-align: center;
-    }
-    header {
-      background-color: #1877F2;
-      color: white;
-      padding: 2rem 1rem;
-    }
-    header h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.2em;
-    }
-    header p {
-      font-size: 1.2em;
-    }
-    .language-switch {
-      margin-top: 1rem;
-      font-size: 0.9em;
-    }
-    .language-switch span {
-      cursor: pointer;
-      color: white;
-      margin: 0 5px;
-      text-decoration: underline;
-    }
-    .container {
-      padding: 2rem 1rem;
-      max-width: 600px;
-      margin: auto;
-    }
-    .btn, .btn-login {
-      background-color: #1877F2;
-      color: white;
-      padding: 12px 20px;
-      font-size: 1em;
-      border: none;
-      border-radius: 6px;
-      margin: 10px auto;
-      cursor: pointer;
-      display: block;
-    }
-    input {
-      padding: 10px;
-      margin: 5px;
-      width: 80%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    #status {
-      margin-top: 10px;
-      font-weight: bold;
-      color: green;
-    }
-    footer {
-      background-color: #333;
-      color: white;
-      padding: 1rem;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: underline;
-    }
-    footer a:hover {
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1 id="title">Benvenuto su FriendlyTouch</h1>
-    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
-    <div class="language-switch">
-      <span onclick="switchLang('it')">IT</span> | 
-      <span onclick="switchLang('en')">EN</span>
-    </div>
-  </header>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
-  <div class="container">
-    <h2>Registrazione / Login</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button class="btn-login" onclick="register()">Registrati</button>
-    <button class="btn-login" onclick="login()">Login</button>
-    <div id="status"></div>
-
-    <hr>
-    <p id="desc">Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
-    <a class="btn" href="https://buy.stripe.com/test_aEU5nK3Co4K58yk4gg" target="_blank" id="buttonText">
-      Trova un amico/a (1€)
-    </a>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
-    <p>
-      <a href="https://yourdomain.com/termini" target="_blank">Termini & Condizioni</a> |
-      <a href="https://yourdomain.com/privacy" target="_blank">Politica sulla Privacy</a>
-    </p>
-  </footer>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
-
-  <script>
-    // Configurazione Firebase del tuo progetto
     const firebaseConfig = {
       apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
       authDomain: "friendly-touch.firebaseapp.com",
       databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "friendly-touch",
-      storageBucket: "friendly-touch.firebasestorage.app",
+      storageBucket: "friendly-touch.appspot.com",
       messagingSenderId: "777437599506",
       appId: "1:777437599506:web:39882c04552665367d45cb",
       measurementId: "G-5RRLGDN5MM"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    function register() {
-      const email = document.getElementById("email").value;
+    window.register = function () {
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          document.getElementById("status").textContent = "Registrazione completata!";
-        })
-        .catch(err => {
-          document.getElementById("status").textContent = "Errore: " + err.message;
-        });
-    }
 
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          document.getElementById("status").textContent = "Accesso effettuato!";
-        })
-        .catch(err => {
-          document.getElementById("status").textContent = "Errore: " + err.message;
-        });
-    }
-
-    const translations = {
-      it: {
-        title: "Benvenuto su FriendlyTouch",
-        subtitle: "Connettiti con un nuovo amico/a casualmente!",
-        desc: "Scarica subito la nostra app e inizia a conoscere nuove persone!",
-        button: "Trova un amico/a (1€)"
-      },
-      en: {
-        title: "Welcome to FriendlyTouch",
-        subtitle: "Connect with a new friend every day!",
-        desc: "Download our app now and start meeting new people!",
-        button: "Find a friend (€1)"
+      if (!validateEmail(email)) {
+        showMessage("Inserisci un indirizzo email valido.", true);
+        return;
       }
-    };
 
-    function switchLang(lang) {
-      document.getElementById("title").textContent = translations[lang].title;
-      document.getElementById("subtitle").textContent = translations[lang].subtitle;
-      document.getElementById("desc").textContent = translations[lang].desc;
-      document.getElementById("buttonText").textContent = translations[lang].button;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => showMessage("Registrazione avvenuta con successo!", false))
+        .catch((error) => showMessage("Errore: " + error.message, true));
+    }
+
+    window.login = function () {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!validateEmail(email)) {
+        showMessage("Inserisci un indirizzo email valido.", true);
+        return;
+      }
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => showMessage("Login effettuato con successo!", false))
+        .catch((error) => showMessage("Errore: " + error.message, true));
+    }
+
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email.toLowerCase());
+    }
+
+    function showMessage(message, isError) {
+      const msg = document.getElementById("message");
+      msg.innerText = message;
+      msg.style.color = isError ? "red" : "green";
     }
   </script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 2em; background: #f1f6f9; }
+    h1 { color: #007BFF; font-size: 2.5em; }
+    .box { background: white; padding: 2em; margin: 2em auto; max-width: 400px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+    button { background: #007BFF; color: white; border: none; border-radius: 5px; }
+    #message { margin-top: 1em; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>FriendlyTouch</h1>
+  <p>Connettiti con un nuovo amico/a casualmente!</p>
+  <div class="box">
+    <h2>Registrazione / Login</h2>
+    <input type="text" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password (min. 6 caratteri)" />
+    <button onclick="register()">Registrati</button>
+    <button onclick="login()">Login</button>
+    <div id="message"></div>
+  </div>
+  <p><a href="#">Trova un amico/a (1€)</a></p>
 </body>
 </html>
