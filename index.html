@@ -1,3 +1,71 @@
-<button onclick="trovaAmico()">Incontra un amico</button>
-<div id="result"></div>
-<script src="script.js"></script>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(FriendlyTouchApp());
+}
+
+class FriendlyTouchApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'FriendlyTouch',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: WelcomeScreen(),
+    );
+  }
+}
+
+class WelcomeScreen extends StatelessWidget {
+  // Schermata di benvenuto
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('FriendlyTouch'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Benvenuto su FriendlyTouch!', style: TextStyle(fontSize: 24)),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text('Trova un amico (1€)'),
+              onPressed: () {
+                // In futuro qui inseriremo il sistema di pagamento e match
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MatchScreen()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MatchScreen extends StatelessWidget {
+  // Schermata del match casuale: per ora simula un match casuale
+  final List<String> utenti = ['Luca23', 'Anna11', 'Ryan34', 'Marco77', 'Vale88'];
+
+  @override
+  Widget build(BuildContext context) {
+    final randomUser = (utenti..shuffle()).first;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Il tuo nuovo amico!'),
+      ),
+      body: Center(
+        child: Text(
+          'Hai trovato: $randomUser',
+          style: TextStyle(fontSize: 28, color: Colors.green),
+        ),
+      ),
+    );
+  }
+}
