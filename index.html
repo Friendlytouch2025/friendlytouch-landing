@@ -4,7 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FriendlyTouch</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #1877F2;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container {
+      padding: 2rem;
+      text-align: center;
+    }
+    button {
+      background-color: #1877F2;
+      border: none;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+    .language-switch {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .language-switch span {
+      cursor: pointer;
+      color: white;
+      text-decoration: underline;
+      margin: 0 0.5rem;
+    }
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -17,12 +66,32 @@
   </header>
   <div class="container">
     <p id="desc">Clicca sotto per iniziare gratuitamente!</p>
-    <button onclick="alert('Registrazione in arrivo!')">Iscriviti Gratis</button>
+    <button onclick="alert('Prossimamente disponibile!')">Iscriviti Gratis</button>
   </div>
   <footer>
     <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
     <a href="#">Termini e condizioni</a> | <a href="#">Privacy Policy</a>
   </footer>
-  <script src="script.js"></script>
+
+  <script>
+    const translations = {
+      it: {
+        title: "Benvenuto su FriendlyTouch",
+        subtitle: "Connettiti con un nuovo amico ogni giorno!",
+        desc: "Clicca sotto per iniziare gratuitamente!",
+      },
+      en: {
+        title: "Welcome to FriendlyTouch",
+        subtitle: "Connect with a new friend every day!",
+        desc: "Click below to start for free!",
+      }
+    };
+
+    function switchLang(lang) {
+      document.getElementById("title").textContent = translations[lang].title;
+      document.getElementById("subtitle").textContent = translations[lang].subtitle;
+      document.getElementById("desc").textContent = translations[lang].desc;
+    }
+  </script>
 </body>
 </html>
