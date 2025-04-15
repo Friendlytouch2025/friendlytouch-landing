@@ -111,7 +111,7 @@
 
   <header>
     <h1>FriendlyTouch</h1>
-    <p>Incontra nuovi amici in tutto il mondo</p>
+    <p>Trova subito un nuovo/a amico/a </p>
   </header>
 
   <nav>
@@ -123,8 +123,8 @@
 
   <div class="hero">
     <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659" alt="Friends">
-    <h1 id="headline">Connetti. Scopri. Vivi.</h1>
-    <p id="subtext">Una piattaforma semplice per trovare amici reali in tutto il mondo.</p>
+    <h1 id="headline">Trova un nuovo/a amico/a subito con un solo click!</h1>
+    <p id="subtext">Una piattaforma per trovare subito un/a nuovo/a amico/a con un click!  in tutto il mondo.</p>
   </div>
 
   <div class="register-form">
@@ -132,7 +132,7 @@
     <input type="text" placeholder="Nome utente" />
     <input type="email" placeholder="Email" />
     <input type="password" placeholder="Password" />
-    <button onclick="alert('Registrazione completata!')">Registrati</button>
+    <button onclick="alert('Registrazione completata!')">Trova un/a amico/a adesso</button>
   </div>
 
   <div class="testimonials">
@@ -147,28 +147,7 @@
     <p><a href="#">Termini e Condizioni</a> | <a href="#">Privacy</a></p>
   </footer>
 
-  <script>
-    function setLang(lang) {
-      const texts = {
-        it: {
-          headline: "Connetti. Scopri. Vivi.",
-          subtext: "Una piattaforma semplice per trovare amici reali in tutto il mondo.",
-          register: "Registrati gratuitamente"
-        },
-        en: {
-          headline: "Connect. Discover. Live.",
-          subtext: "A simple platform to meet real friends worldwide.",
-          register: "Sign Up for Free"
-        },
-        es: {
-          headline: "Conecta. Descubre. Vive.",
-          subtext: "Una plataforma sencilla para encontrar amigos reales.",
-          register: "Regístrate gratis"
-        },
-        jp: {
-          headline: "つながる・発見・楽しむ",
-          subtext: "世界中の友達とつながるシンプルなアプリ",
-          register: "無料登録"
+  
         }
       };
       document.getElementById('headline').textContent = texts[lang].headline;
