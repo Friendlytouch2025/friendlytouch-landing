@@ -1,177 +1,172 @@
-<!DOCTYPE html><html lang="it">
+<!DOCTYPE html>
+<html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FriendlyTouch</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f2f5;
+      font-family: sans-serif;
+      background: #f0f4f8;
       margin: 0;
       padding: 0;
-      color: #333;
-      text-align: center;
     }
     header {
-      background-color: #1877F2;
+      background: #007bff;
       color: white;
-      padding: 2rem 1rem;
-    }
-    header img {
-      max-width: 100px;
-      display: block;
-      margin: 0 auto 1rem;
+      text-align: center;
+      padding: 20px;
     }
     .container {
-      padding: 2rem 1rem;
-      max-width: 600px;
-      margin: auto;
+      max-width: 400px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
     }
-    .btn {
-      background-color: #635bff;
-      color: white;
-      padding: 15px 30px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-block;
-      margin: 1rem auto;
-      cursor: pointer;
-    }
-    input {
+    input, button, select {
+      width: 100%;
       padding: 10px;
-      margin: 5px;
-      width: 80%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      font-size: 16px;
     }
-    .btn-login {
-      background-color: #1877F2;
+    .error, .success {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .error { color: red; }
+    .success { color: green; }
+    .stripe-btn {
+      background-color: #007bff;
       color: white;
-      padding: 10px 20px;
-      margin-top: 10px;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
+      text-align: center;
+      padding: 12px;
+      font-size: 16px;
       cursor: pointer;
-    }
-    .profile-pic {
-      width: 120px;
-      border-radius: 50%;
-      margin-top: 10px;
-    }
-    footer {
-      background-color: #333;
-      color: white;
-      padding: 1rem;
-      font-size: 0.9rem;
+      display: block;
+      text-decoration: none;
     }
   </style>
 </head>
-<body>  <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Handshake_icon.svg/512px-Handshake_icon.svg.png" alt="Logo stretta di mano">
-    <h1>FriendlyTouch</h1>
-    <p>Connettiti con un nuovo amico/a casualmente!</p>
-  </header>  <div class="container" id="startScreen">
-    <a class="btn" onclick="showRegistration()">Trova un amico</a>
-  </div>  <div class="container" id="registrationForm" style="display:none">
-    <h2>Registrazione</h2>
-    <input type="text" id="name" placeholder="Nome" /><br>
-    <input type="text" id="gender" placeholder="Sesso" /><br>
-    <input type="number" id="age" placeholder="Età" /><br>
-    <input type="text" id="city" placeholder="Città" /><br>
-    <input type="email" id="email" placeholder="Email" /><br>
-    <input type="password" id="password" placeholder="Password" /><br>
-    <button class="btn-login" onclick="register()">Registrati</button>
-    <p>Oppure <a href="#" onclick="showLogin()">hai già un account?</a></p>
-  </div>  <div class="container" id="paymentLink" style="display:none">
-    <h3>Pagamento iniziale di attivazione (2€)</h3>
-    <a class="btn" href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" target="_blank">Paga 2€</a><br><br>
-    <button class="btn" onclick="showLogin()">Ho già pagato</button>
-  </div>  <div class="container" id="loginForm" style="display:none">
-    <h2>Login</h2>
-    <input type="email" id="loginEmail" placeholder="Email" /><br>
-    <input type="password" id="loginPassword" placeholder="Password" /><br>
-    <button class="btn-login" onclick="login()">Login</button>
-    <div id="status"></div>
-  </div>  <div class="container" id="findFriend" style="display:none">
-    <h2>Benvenuto!</h2>
-    <a class="btn" href="https://buy.stripe.com/test_14k6rG2Co5eJbzqeUV" target="_blank" onclick="afterPayment()">Trova un nuovo amico (1€)</a>
-    <div id="friendResult"></div>
-  </div>  <footer>
-    <p>&copy; 2025 FriendlyTouch. Tutti i diritti riservati.</p>
-  </footer>  <!-- Firebase SDK -->  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>  <script>
+<body>
+  <header>
+    <h1 id="title">FriendlyTouch</h1>
+    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
+    <select id="language" onchange="changeLanguage()">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+  </header>
+
+  <div class="container">
+    <h2 id="form-title">Registrazione / Login</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="register()" id="register-btn">Registrati</button>
+    <button onclick="login()" id="login-btn">Login</button>
+    <div id="message" class="error"></div>
+
+    <hr>
+
+    <p id="download-text">Scarica subito la nostra app e inizia a conoscere nuove persone!</p>
+    <a href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" class="stripe-btn" id="stripe-btn">
+      Trova un amico/a (2€)
+    </a>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
       authDomain: "friendly-touch.firebaseapp.com",
       databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "friendly-touch",
-      storageBucket: "friendly-touch.appspot.com",
+      storageBucket: "friendly-touch.firebasestorage.app",
       messagingSenderId: "777437599506",
       appId: "1:777437599506:web:39882c04552665367d45cb",
       measurementId: "G-5RRLGDN5MM"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    function showRegistration() {
-      document.getElementById('startScreen').style.display = 'none';
-      document.getElementById('registrationForm').style.display = 'block';
-    }
-
-    function showLogin() {
-      document.getElementById('registrationForm').style.display = 'none';
-      document.getElementById('paymentLink').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-    }
 
     function register() {
-      const name = document.getElementById("name").value;
-      const gender = document.getElementById("gender").value;
-      const age = document.getElementById("age").value;
-      const city = document.getElementById("city").value;
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-
       auth.createUserWithEmailAndPassword(email, password)
-        .then((cred) => {
-          return db.collection("users").doc(cred.user.uid).set({
-            name, gender, age, city, email
-          });
-        })
         .then(() => {
-          document.getElementById("registrationForm").style.display = "none";
-          document.getElementById("paymentLink").style.display = "block";
+          showMessage("Registrazione completata!", "success");
         })
-        .catch(err => alert("Errore: " + err.message));
+        .catch(error => {
+          showMessage(error.message, "error");
+        });
     }
 
     function login() {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-          document.getElementById("loginForm").style.display = "none";
-          document.getElementById("findFriend").style.display = "block";
+          showMessage("Accesso riuscito!", "success");
         })
-        .catch(err => document.getElementById("status").textContent = "Errore: " + err.message);
+        .catch(error => {
+          showMessage(error.message, "error");
+        });
     }
 
-    function afterPayment() {
-      setTimeout(() => {
-        db.collection("users").get().then(snapshot => {
-          const users = snapshot.docs.map(doc => doc.data());
-          const randomUser = users[Math.floor(Math.random() * users.length)];
-          document.getElementById("friendResult").innerHTML = `
-            <h3>${randomUser.name}</h3>
-            <p>${randomUser.gender}, ${randomUser.age} anni</p>
-            <p>${randomUser.city}</p>
-          `;
-        });
-      }, 3000);
+    function showMessage(text, type) {
+      const msg = document.getElementById("message");
+      msg.textContent = text;
+      msg.className = type;
     }
-  </script></body>
+
+    function changeLanguage() {
+      const lang = document.getElementById("language").value;
+      const texts = {
+        it: {
+          title: "FriendlyTouch",
+          subtitle: "Connettiti con un nuovo amico/a casualmente!",
+          formTitle: "Registrazione / Login",
+          registerBtn: "Registrati",
+          loginBtn: "Login",
+          downloadText: "Scarica subito la nostra app e inizia a conoscere nuove persone!",
+          stripeBtn: "Trova un amico/a (2€)"
+        },
+        en: {
+          title: "FriendlyTouch",
+          subtitle: "Connect with a new friend randomly!",
+          formTitle: "Register / Login",
+          registerBtn: "Register",
+          loginBtn: "Login",
+          downloadText: "Download our app and start meeting new people!",
+          stripeBtn: "Find a friend (2€)"
+        },
+        es: {
+          title: "FriendlyTouch",
+          subtitle: "¡Conéctate con un nuevo amigo/a al azar!",
+          formTitle: "Registro / Inicio de sesión",
+          registerBtn: "Registrarse",
+          loginBtn: "Iniciar sesión",
+          downloadText: "¡Descarga nuestra app y empieza a conocer nuevas personas!",
+          stripeBtn: "Encuentra un amigo/a (2€)"
+        }
+      };
+
+      const t = texts[lang];
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("form-title").textContent = t.formTitle;
+      document.getElementById("register-btn").textContent = t.registerBtn;
+      document.getElementById("login-btn").textContent = t.loginBtn;
+      document.getElementById("download-text").textContent = t.downloadText;
+      document.getElementById("stripe-btn").textContent = t.stripeBtn;
+    }
+  </script>
+</body>
 </html>
