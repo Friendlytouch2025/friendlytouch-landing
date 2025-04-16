@@ -8,28 +8,29 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', 'Roboto', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
+      background-color: #ffffff;
+      color: #222;
       text-align: center;
       padding: 2rem;
     }
     h1 {
       font-size: 3rem;
-      margin-bottom: 0.2rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
     }
     h2 {
-      font-size: 1.5rem;
-      color: #666;
+      font-size: 1.4rem;
+      color: #444;
+      font-weight: normal;
       margin-top: 0;
     }
-    p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
+    h3 {
+      font-size: 1.1rem;
+      color: #555;
       margin-bottom: 2rem;
     }
     .cta {
-      display: block;
-      background-color: #0077cc;
+      background-color: #0066cc;
       color: white;
       padding: 1rem 2rem;
       margin: 1rem auto;
@@ -38,39 +39,32 @@
       font-size: 1.2rem;
       cursor: pointer;
       width: fit-content;
+      display: block;
       transition: background-color 0.3s ease;
     }
     .cta:hover {
-      background-color: #005fa3;
-    }
-    .lang {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #aaa;
+      background-color: #004d99;
     }
   </style>
 </head>
 <body>
   <h1>Med Touch</h1>
-  <h2>Un parere medico sempre con la T</h2>
-  <p>Servizio H24 / 7 giorni su 7</p>
+  <h2>Un parere medico sempre con T</h2>
+  <h3>Servizio H24 / 7 giorni su 7</h3>
 
   <button class="cta" onclick="location.href='https://buy.stripe.com/link-base'">
-    Abbonamento Base – 20€/mese
+    Abbonamento Base – 20€/mese<br>
+    Pareri medici scritti illimitati via Telegram, chat o email
   </button>
 
   <button class="cta" onclick="location.href='https://buy.stripe.com/link-premium'">
-    Premium – 70€/mese
+    Premium – 70€/mese<br>
+    Pareri scritti + videoconsulti e prescrizioni illimitate
   </button>
 
   <button class="cta" onclick="location.href='https://buy.stripe.com/link-annuale'">
-    Annuale – 200€/anno
+    Annuale – 200€/anno<br>
+    Tutto incluso H24: scritti + video + prescrizioni illimitate
   </button>
-
-  <p>Richiedi parere via Telegram, Chat o Email.</p>
-
-  <div class="lang">
-    Disponibile in Italiano · English · Español
-  </div>
 </body>
 </html>
