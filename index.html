@@ -1,152 +1,178 @@
-<!DOCTYPE html><html lang="it">
+<!DOCTYPE html>
+<html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FriendlyTouch</title>
+  <title>Med Touch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: sans-serif;
-      background: #f0f4f8;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
       text-align: center;
     }
     header {
-      background: #007bff;
-      color: white;
-      padding: 20px;
+      background-color: #ffffff;
+      padding: 3rem 1rem 2rem;
     }
-    .container {
-      max-width: 400px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
-    input, button, select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin: 0.5rem 0;
     }
-    .error, .success {
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-    .error { color: red; }
-    .success { color: green; }
-    .stripe-btn {
-      background-color: #28a745;
-      color: white;
+    .cta {
+      background-color: #00b894;
+      color: #fff;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 5px;
-      padding: 12px;
-      font-size: 16px;
+      border-radius: 10px;
+      margin-top: 2rem;
       cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
     }
-    #logo {
-      width: 100px;
-      margin-bottom: 10px;
+    .cta:hover {
+      background-color: #019875;
+    }
+    .pricing {
+      margin: 4rem auto 2rem;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .price-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .price-card h3 {
+      margin-bottom: 0.5rem;
+      color: #00b894;
+    }
+    .lang-select {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+    select {
+      font-size: 1rem;
+      padding: 0.3rem;
+      border-radius: 8px;
+    }
+    footer {
+      margin-top: 4rem;
+      padding-bottom: 2rem;
     }
   </style>
 </head>
 <body>
+
+  <div class="lang-select">
+    <select onchange="changeLanguage(this.value)">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+  </div>
+
   <header>
-    <img src="logo.png" id="logo" alt="FriendlyTouch Logo">
-    <h1 id="title">FriendlyTouch</h1>
-    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
-  </header>  <div class="container" id="start-page">
-    <a href="#" class="stripe-btn" onclick="showRegister()">Trova un amico</a>
-  </div>  <div class="container" id="register-page" style="display:none;">
-    <h2 id="form-title">Registrazione</h2>
-    <input type="text" id="name" placeholder="Nome">
-    <input type="text" id="gender" placeholder="Sesso">
-    <input type="number" id="age" placeholder="Età">
-    <input type="text" id="city" placeholder="Città">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <input type="file" id="photo">
-    <button onclick="register()">Registrati</button>
-    <a href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" class="stripe-btn">Paga 2€ per iniziare</a>
-    <div id="message" class="error"></div>
-  </div>  <div class="container" id="login-page" style="display:none;">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="Email">
-    <input type="password" id="login-password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <div id="login-message" class="error"></div>
-  </div>  <div class="container" id="user-page" style="display:none;">
-    <h2>Trova un Amico</h2>
-    <button onclick="findFriend()">Trova (1€)</button>
-    <a href="https://buy.stripe.com/test_dR6aHN1JE3hP7Ko3cd" class="stripe-btn">Paga 1€</a>
-    <div id="friend-profile"></div>
-  </div>  <!-- Firebase SDK -->  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
-      authDomain: "friendly-touch.firebaseapp.com",
-      databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "friendly-touch",
-      storageBucket: "friendly-touch.appspot.com",
-      messagingSenderId: "777437599506",
-      appId: "1:777437599506:web:39882c04552665367d45cb"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.database();
+    <h1 id="brand">Med Touch</h1>
+    <h2 id="subtitle">Un parere medico sempre con la T.</h2>
+    <p id="service">Servizio H24 / 7 giorni su 7</p>
+    <button class="cta" onclick="goToContact()"
+      id="ctaBtn">Chiedi al medico via Telegram, Chat o Email</button>
+  </header>
 
-    function showRegister() {
-      document.getElementById("start-page").style.display = "none";
-      document.getElementById("register-page").style.display = "block";
+  <section class="pricing">
+    <div class="price-card">
+      <h3 id="plan1">20€ / mese</h3>
+      <p id="desc1">Pareri scritti illimitati</p>
+    </div>
+    <div class="price-card">
+      <h3 id="plan2">70€ / mese</h3>
+      <p id="desc2">Videoconsulti + prescrizioni illimitate</p>
+    </div>
+    <div class="price-card">
+      <h3 id="plan3">200€ / anno</h3>
+      <p id="desc3">Tutto illimitato H24 / 7</p>
+    </div>
+    <button class="cta" onclick="goToPayment()"
+      id="payBtn">Scegli e paga ora il tuo abbonamento</button>
+  </section>
+
+  <footer>
+    <p style="font-size: 0.9rem;">&copy; 2025 Med Touch. Tutti i diritti riservati.</p>
+  </footer>
+
+  <script>
+    function goToPayment() {
+      window.location.href = "https://your-stripe-or-paypal-link.com";
     }
 
-    function register() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const name = document.getElementById("name").value;
-      const gender = document.getElementById("gender").value;
-      const age = document.getElementById("age").value;
-      const city = document.getElementById("city").value;
-
-      auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
-        const uid = userCredential.user.uid;
-        db.ref('users/' + uid).set({
-          name, gender, age, city
-        });
-        document.getElementById("register-page").style.display = "none";
-        document.getElementById("login-page").style.display = "block";
-      }).catch(error => {
-        document.getElementById("message").textContent = error.message;
-      });
+    function goToContact() {
+      window.location.href = "https://t.me/tuonomeutente"; // oppure link email/chat
     }
 
-    function login() {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-
-      auth.signInWithEmailAndPassword(email, password).then(() => {
-        document.getElementById("login-page").style.display = "none";
-        document.getElementById("user-page").style.display = "block";
-      }).catch(error => {
-        document.getElementById("login-message").textContent = error.message;
-      });
+    function changeLanguage(lang) {
+      const translations = {
+        it: {
+          subtitle: "Un parere medico sempre con la T.",
+          service: "Servizio H24 / 7 giorni su 7",
+          ctaBtn: "Chiedi al medico via Telegram, Chat o Email",
+          payBtn: "Scegli e paga ora il tuo abbonamento",
+          plan1: "20€ / mese",
+          desc1: "Pareri scritti illimitati",
+          plan2: "70€ / mese",
+          desc2: "Videoconsulti + prescrizioni illimitate",
+          plan3: "200€ / anno",
+          desc3: "Tutto illimitato H24 / 7"
+        },
+        en: {
+          subtitle: "A medical opinion always with a T.",
+          service: "24/7 Service",
+          ctaBtn: "Ask the doctor via Telegram, Chat or Email",
+          payBtn: "Choose and pay for your subscription now",
+          plan1: "€20 / month",
+          desc1: "Unlimited written opinions",
+          plan2: "€70 / month",
+          desc2: "Video consults + unlimited prescriptions",
+          plan3: "€200 / year",
+          desc3: "All unlimited 24/7"
+        },
+        es: {
+          subtitle: "Una opinión médica siempre con la T.",
+          service: "Servicio 24h / 7 días",
+          ctaBtn: "Pregunta al médico por Telegram, Chat o Email",
+          payBtn: "Elige y paga tu suscripción ahora",
+          plan1: "20€ / mes",
+          desc1: "Opiniones escritas ilimitadas",
+          plan2: "70€ / mes",
+          desc2: "Videoconsultas + recetas ilimitadas",
+          plan3: "200€ / año",
+          desc3: "Todo ilimitado 24/7"
+        }
+      };
+      const t = translations[lang];
+      document.getElementById("subtitle").innerText = t.subtitle;
+      document.getElementById("service").innerText = t.service;
+      document.getElementById("ctaBtn").innerText = t.ctaBtn;
+      document.getElementById("payBtn").innerText = t.payBtn;
+      document.getElementById("plan1").innerText = t.plan1;
+      document.getElementById("desc1").innerText = t.desc1;
+      document.getElementById("plan2").innerText = t.plan2;
+      document.getElementById("desc2").innerText = t.desc2;
+      document.getElementById("plan3").innerText = t.plan3;
+      document.getElementById("desc3").innerText = t.desc3;
     }
-
-    function findFriend() {
-      db.ref('users').once('value').then(snapshot => {
-        const users = snapshot.val();
-        const currentUid = auth.currentUser.uid;
-        const keys = Object.keys(users).filter(k => k !== currentUid);
-        if (keys.length === 0) return;
-        const randomKey = keys[Math.floor(Math.random() * keys.length)];
-        const friend = users[randomKey];
-        document.getElementById("friend-profile").innerHTML =
-          `<h3>${friend.name}</h3>
-          <p>Sesso: ${friend.gender}</p>
-          <p>Età: ${friend.age}</p>
-          <p>Città: ${friend.city}</p>`;
-      });
-    }
-  </script></body>
+  </script>
+</body>
 </html>
