@@ -2,89 +2,179 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Med Touch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FriendlyTouch</title>
   <style>
     body {
+      font-family: sans-serif;
+      background: #f0f4f8;
       margin: 0;
-      font-family: 'Segoe UI', 'Roboto', sans-serif;
-      background-color: #ffffff;
-      color: #222;
-      text-align: center;
-      padding: 2rem;
+      padding: 0;
     }
-    h1 {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-    }
-    h2 {
-      font-size: 1.4rem;
-      color: #444;
-      font-weight: normal;
-      margin-top: 0;
-    }
-    h3 {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 2rem;
-    }
-    .cta {
-      background-color: #0066cc;
+    header {
+      background: #007bff;
       color: white;
-      padding: 1rem 2rem;
-      margin: 1rem auto;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    input, button, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .error, .success {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .error { color: red; }
+    .success { color: green; }
+    .stripe-btn {
+      background-color: #20c997;
+      color: white;
       border: none;
-      border-radius: 12px;
-      font-size: 1.2rem;
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: bold;
       cursor: pointer;
-      width: fit-content;
       display: block;
       text-decoration: none;
-      transition: background-color 0.3s ease;
+      margin-top: 20px;
     }
-    .cta:hover {
-      background-color: #004d99;
-    }
-    .cta.contatto {
-      background-color: #2bbbad;
-    }
-    .cta.contatto:hover {
-      background-color: #239e95;
+    .subtitle {
+      font-size: 1.1rem;
+      color: #444;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Med Touch</h1>
-  <h2>Un parere medico sempre con Te</h2>
-  <h3>Servizio H24 / 7 giorni su 7</h3>
+  <header>
+    <h1 id="title">FriendlyTouch</h1>
+    <p id="subtitle">Connettiti con un nuovo amico/a casualmente!</p>
+    <select id="language" onchange="changeLanguage()">
+      <option value="it">Italiano</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+    </select>
+  </header>
 
-  <button class="cta" onclick="location.href='https://buy.stripe.com/link-base'">
-    Abbonamento Base – 20€/mese<br>
-    Pareri medici scritti illimitati via Telegram, Whatsapp o email
-  </button>
+  <div class="container">
+    <h2 id="form-title">Registrazione / Login</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="register()" id="register-btn">Registrati</button>
+    <button onclick="login()" id="login-btn">Login</button>
+    <div id="message" class="error"></div>
 
-  <button class="cta" onclick="location.href='https://buy.stripe.com/link-premium'">
-    Premium – 70€/mese<br>
-    Pareri scritti + videoconsulti e prescrizioni illimitate
-  </button>
-
-  <button class="cta" onclick="location.href='https://buy.stripe.com/link-annuale'">
-    Annuale – 200€/anno<br>
-    Tutto incluso H24: scritti + video + prescrizioni illimitate
-  </button>
-
-  <!-- Bottone "Chiedi al medico" con contatti -->
-  <div style="margin-top: 3rem;">
-    <button class="cta" onclick="document.getElementById('contatti').style.display='block'">
-      Chiedi al medico attraverso Telegram, Whatsapp o Email
-    </button>
-
-    <div id="contatti" style="display: none; margin-top: 1.5rem;">
-      <a href="https://wa.me/393515503904" target="_blank" class="cta contatto">Contatta via WhatsApp</a><br>
-      <a href="https://t.me/AnnaMyself" target="_blank" class="cta contatto">Contatta su Telegram</a><br>
-      <a href="mailto:ferriam78@gmail.com" class="cta contatto">Invia una Email</a>
-    </div>
+    <a href="https://buy.stripe.com/8wMeYc1JE35J7K04gh" class="stripe-btn" id="stripe-btn">
+      Trova un amico/a (2€)
+    </a>
+    <p class="subtitle" id="download-text">
+      Inizia oggi: ogni clic è una nuova possibilità!
+    </p>
   </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAy9GVsyqaUHVn6SF8Bp3AtEUe3NHu43J8",
+      authDomain: "friendly-touch.firebaseapp.com",
+      databaseURL: "https://friendly-touch-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "friendly-touch",
+      storageBucket: "friendly-touch.firebasestorage.app",
+      messagingSenderId: "777437599506",
+      appId: "1:777437599506:web:39882c04552665367d45cb",
+      measurementId: "G-5RRLGDN5MM"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function register() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          showMessage("Registrazione completata!", "success");
+        })
+        .catch(error => {
+          showMessage(error.message, "error");
+        });
+    }
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          showMessage("Accesso riuscito!", "success");
+        })
+        .catch(error => {
+          showMessage(error.message, "error");
+        });
+    }
+
+    function showMessage(text, type) {
+      const msg = document.getElementById("message");
+      msg.textContent = text;
+      msg.className = type;
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById("language").value;
+      const texts = {
+        it: {
+          title: "FriendlyTouch",
+          subtitle: "Connettiti con un nuovo amico/a casualmente!",
+          formTitle: "Registrazione / Login",
+          registerBtn: "Registrati",
+          loginBtn: "Login",
+          downloadText: "Inizia oggi: ogni clic è una nuova possibilità!",
+          stripeBtn: "Trova un amico/a (2€)"
+        },
+        en: {
+          title: "FriendlyTouch",
+          subtitle: "Connect with a new friend randomly!",
+          formTitle: "Register / Login",
+          registerBtn: "Register",
+          loginBtn: "Login",
+          downloadText: "Start today: each click is a new opportunity!",
+          stripeBtn: "Find a friend (2€)"
+        },
+        es: {
+          title: "FriendlyTouch",
+          subtitle: "¡Conéctate con un nuevo amigo/a al azar!",
+          formTitle: "Registro / Inicio de sesión",
+          registerBtn: "Registrarse",
+          loginBtn: "Iniciar sesión",
+          downloadText: "Empieza hoy: ¡cada clic es una nueva oportunidad!",
+          stripeBtn: "Encuentra un amigo/a (2€)"
+        }
+      };
+
+      const t = texts[lang];
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("form-title").textContent = t.formTitle;
+      document.getElementById("register-btn").textContent = t.registerBtn;
+      document.getElementById("login-btn").textContent = t.loginBtn;
+      document.getElementById("download-text").textContent = t.downloadText;
+      document.getElementById("stripe-btn").textContent = t.stripeBtn;
+    }
+  </script>
 </body>
 </html>
