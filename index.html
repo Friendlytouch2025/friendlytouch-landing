@@ -40,6 +40,7 @@
       cursor: pointer;
       width: fit-content;
       display: block;
+      text-decoration: none;
       transition: background-color 0.3s ease;
     }
     .cta:hover {
@@ -66,5 +67,18 @@
     Annuale – 200€/anno<br>
     Tutto incluso H24: scritti + video + prescrizioni illimitate
   </button>
+
+  <!-- Bottone "Chiedi al medico" con contatti -->
+  <div style="margin-top: 3rem;">
+    <button class="cta" onclick="document.getElementById('contatti').style.display='block'">
+      Chiedi al medico attraverso Telegram, Chat e Email
+    </button>
+
+    <div id="contatti" style="display: none; margin-top: 1.5rem;">
+      <a href="https://wa.me/393515503904" target="_blank" class="cta">Contatta via WhatsApp</a><br>
+      <a href="https://t.me/AnnaMyself" target="_blank" class="cta">Contatta su Telegram</a><br>
+      <a href="mailto:ferriam78@gmail.com" class="cta">Invia una Email</a>
+    </div>
+  </div>
 </body>
 </html>
