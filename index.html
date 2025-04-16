@@ -46,6 +46,12 @@
     .cta:hover {
       background-color: #004d99;
     }
+    .cta.contatto {
+      background-color: #2bbbad;
+    }
+    .cta.contatto:hover {
+      background-color: #239e95;
+    }
   </style>
 </head>
 <body>
@@ -55,7 +61,7 @@
 
   <button class="cta" onclick="location.href='https://buy.stripe.com/link-base'">
     Abbonamento Base – 20€/mese<br>
-    Pareri medici scritti illimitati via Telegram, chat o email
+    Pareri medici scritti illimitati via Telegram, Whatsapp o email
   </button>
 
   <button class="cta" onclick="location.href='https://buy.stripe.com/link-premium'">
@@ -71,13 +77,13 @@
   <!-- Bottone "Chiedi al medico" con contatti -->
   <div style="margin-top: 3rem;">
     <button class="cta" onclick="document.getElementById('contatti').style.display='block'">
-      Chiedi al medico attraverso Telegram, Chat e Email
+      Chiedi al medico attraverso Telegram, Whatsapp o Email
     </button>
 
     <div id="contatti" style="display: none; margin-top: 1.5rem;">
-      <a href="https://wa.me/393515503904" target="_blank" class="cta">Contatta via WhatsApp</a><br>
-      <a href="https://t.me/AnnaMyself" target="_blank" class="cta">Contatta su Telegram</a><br>
-      <a href="mailto:ferriam78@gmail.com" class="cta">Invia una Email</a>
+      <a href="https://wa.me/393515503904" target="_blank" class="cta contatto">Contatta via WhatsApp</a><br>
+      <a href="https://t.me/AnnaMyself" target="_blank" class="cta contatto">Contatta su Telegram</a><br>
+      <a href="mailto:ferriam78@gmail.com" class="cta contatto">Invia una Email</a>
     </div>
   </div>
 </body>
